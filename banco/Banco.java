@@ -15,5 +15,47 @@ public class Banco {
         usuarios.put(Rol.EjecutivoCuenta, new ArrayList<>());
         usuarios.put(Rol.GerenteSucursal, new ArrayList<>());
         usuarios.put(Rol.Inversionista, new ArrayList<>());
+        usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Madero", "kkkk", "01/01/2002", "H","16", "1", "1",Rol.GerenteSucursal));
+    }
+
+
+
+    public Persona verificarInicioSesion(String usuario,String contra){
+        for(Persona usuarioActual : usuarios.get(Rol.Cliente)){
+            if(usuarioActual.getNombreUsuario().equals(usuario)){
+                if(usuarioActual.getContra().equals(contra)){
+                    return usuarioActual;
+                }
+            }
+        }
+        for(Persona usuarioActual : usuarios.get(Rol.EjecutivoCuenta)){
+            if(usuarioActual.getNombreUsuario().equals(usuario)){
+                if(usuarioActual.getContra().equals(contra)){
+                    return usuarioActual;
+                }
+            }
+        }
+        for(Persona usuarioActual : usuarios.get(Rol.GerenteSucursal)){
+            if(usuarioActual.getNombreUsuario().equals(usuario)){
+                if(usuarioActual.getContra().equals(contra)){
+                    return usuarioActual;
+                }
+            }
+        }
+        for(Persona usuarioActual : usuarios.get(Rol.Inversionista)){
+            if(usuarioActual.getNombreUsuario().equals(usuario)){
+                if(usuarioActual.getContra().equals(contra)){
+                    return usuarioActual;
+                }
+            }
+        }
+        for(Persona usuarioActual : usuarios.get(Rol.Capturista)){
+            if(usuarioActual.getNombreUsuario().equals(usuario)){
+                if(usuarioActual.getContra().equals(contra)){
+                    return usuarioActual;
+                }
+            }
+        }
+        return null;
     }
 }
