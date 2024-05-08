@@ -18,9 +18,7 @@ public class Persona {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
-        this.nombreUsuario = nombreUsuario;
-        this.contra = contra;
-        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(7)), Integer.parseInt(fecha.substring(3,5)), Integer.parseInt(fecha.substring(0,2)));
+        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(7)), Integer.parseInt(fecha.substring(0,3)), Integer.parseInt(fecha.substring(4,6)));
         this.genero = obtenerGenero(genero);
         this.estado = obtenerEstado(Integer.parseInt(estado));
         this.rol = rol;
@@ -34,9 +32,7 @@ public class Persona {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
-        this.nombreUsuario = nombreUsuario;
-        this.contra = contra;
-        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(6)), Integer.parseInt(fecha.substring(3,5)), Integer.parseInt(fecha.substring(0,2)));
+        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(7)), Integer.parseInt(fecha.substring(0,3)), Integer.parseInt(fecha.substring(4,6)));
         this.genero = obtenerGenero(genero);
         this.ciudad = ciudad;
         this.estado = obtenerEstado(Integer.parseInt(estado));
