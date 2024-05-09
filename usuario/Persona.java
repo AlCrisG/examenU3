@@ -23,6 +23,8 @@ public class Persona {
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
         this.sucursal = sucursal;
+        this.nombreUsuario = nombreUsuario;
+        this.contra = contra;
         switch(sucursal){
             case Acueducto: 
                 this.id = Persona.ID_USUARIO_ACUEDUCTO;
@@ -45,6 +47,8 @@ public class Persona {
         this.estado = obtenerEstado(Integer.parseInt(estado));
         this.direccion = direccion;
         this.rol = rol;
+        this.nombreUsuario = nombreUsuario;
+        this.contra = contra;
         curp = Curp.crearCurp(nombre, primerApellido, segundoApellido, this.genero, fechaNacimiento, this.estado);
         rfc = Rfc.crearRfc(curp);
         this.sucursal = sucursal;

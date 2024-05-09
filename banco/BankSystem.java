@@ -25,10 +25,10 @@ public class BankSystem {
         
                 switch (opcion) {
                     case 1:
-                        ejecutarSistemaMadero();
+                        iniciarSesionSistema(Sucursal.Madero);
                         break;
                     case 2:
-                        ejecutarSistemaAcueducto();
+                        iniciarSesionSistema(Sucursal.Acueducto);
                         break;
                     case 3:
                         System.exit(0);
@@ -42,8 +42,7 @@ public class BankSystem {
     }
 
 
-    public void ejecutarSistemaMadero(){
-
+    private void iniciarSesionSistema(Sucursal sucursal){
         boolean datosCorrectos = false;
 
         do {
@@ -53,17 +52,18 @@ public class BankSystem {
             System.out.println("Ingresa tu usuario: ");
             String usuario = leerCad.nextLine();
 
-            System.out.println("Ingresa tu contrasena: ");
+            System.out.println("Ingresa tu contraseña: ");
             String contraMadero = leerCad.nextLine();
 
-            Persona usuarioActual = banco.verificarInicioSesion(usuario, contraMadero);
+            Persona usuarioActual = banco.verificarInicioSesion(usuario, contraMadero, sucursal);
 
             if (usuarioActual != null) {
                 UsuarioEnSesion.getInstancia().setUsuario(usuarioActual);
                 datosCorrectos = true;
                 seleccionarMenu();
             } else {
-                System.out.println("Usuario o contrasena incorrectos. Intenta de nuevo.");
+                System.out.println("Usuario o contraseña incorrectos. Intenta de nuevo.");
+                ejecutarSistema();
             }
 
         } while (!datosCorrectos);
@@ -264,7 +264,7 @@ public class BankSystem {
 
                             break;
                         case 5:
-                            ejecutarSistemaMadero();
+                            ejecutarSistema();
                             break;
                         default:
                         System.out.println("Opcion no valida");
@@ -272,26 +272,6 @@ public class BankSystem {
                     }
                 } while(!opcionValida);
             } while (true);
-    }
-
-
-    public void ejecutarSistemaAcueducto(){
-        final String CONTRABANCO2 = "BANCO2";
-
-        boolean contraEsCorrecta = false;
-
-        do {
-            System.out.println("\n*** BIENVENIDO A LA SUCURSAL ACUEDUCTO ***");
-            System.out.println("Ingrese la contraseña");
-            String password = leerCad.nextLine();
-
-            if (password.equals(CONTRABANCO2)) {
-                contraEsCorrecta = true;
-                mostrarMenuAcueductoGerenteSucursal();
-            } else {
-                System.out.println("\nContraseña incorrecta, intenta de nuevo");
-            }
-        } while (!contraEsCorrecta);
     }
 
     public void mostrarMenuAcueductoGerenteSucursal(){
@@ -463,7 +443,7 @@ public class BankSystem {
 
                         break;
                     case 5:
-                        ejecutarSistemaAcueducto();
+                        ejecutarSistema();
                         break;
                     default:
                     System.out.println("Opcion no valida");

@@ -23,39 +23,24 @@ public class Banco {
 
 
 
-    public Persona verificarInicioSesion(String usuario,String contra){
-        for(Persona usuarioActual : usuarios.get(Rol.Cliente)){
-            if(usuarioActual.getNombreUsuario().equals(usuario)){
-                if(usuarioActual.getContra().equals(contra)){
-                    return usuarioActual;
-                }
+    public Persona verificarInicioSesion(String usuario,String contra, Sucursal sucursal){
+        for(int i = 0; i < 5; i++){
+            Rol rol = null;
+            switch(i){
+                case 0 -> rol = Rol.Capturista;
+                case 1 -> rol = Rol.Cliente;
+                case 2 -> rol = Rol.EjecutivoCuenta;
+                case 3 -> rol = Rol.GerenteSucursal;
+                case 4 -> rol = Rol.Inversionista;
             }
-        }
-        for(Persona usuarioActual : usuarios.get(Rol.EjecutivoCuenta)){
-            if(usuarioActual.getNombreUsuario().equals(usuario)){
-                if(usuarioActual.getContra().equals(contra)){
-                    return usuarioActual;
-                }
-            }
-        }
-        for(Persona usuarioActual : usuarios.get(Rol.GerenteSucursal)){
-            if(usuarioActual.getNombreUsuario().equals(usuario)){
-                if(usuarioActual.getContra().equals(contra)){
-                    return usuarioActual;
-                }
-            }
-        }
-        for(Persona usuarioActual : usuarios.get(Rol.Inversionista)){
-            if(usuarioActual.getNombreUsuario().equals(usuario)){
-                if(usuarioActual.getContra().equals(contra)){
-                    return usuarioActual;
-                }
-            }
-        }
-        for(Persona usuarioActual : usuarios.get(Rol.Capturista)){
-            if(usuarioActual.getNombreUsuario().equals(usuario)){
-                if(usuarioActual.getContra().equals(contra)){
-                    return usuarioActual;
+
+            for(Persona usuarioActual : usuarios.get(rol)){
+                if(usuarioActual.getSucursal() == sucursal){
+                    if(usuarioActual.getNombreUsuario().equals(usuario)){
+                        if(usuarioActual.getContra().equals(contra)){
+                            return usuarioActual;
+                        }
+                    }
                 }
             }
         }
