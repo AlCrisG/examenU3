@@ -34,4 +34,8 @@ public class Cliente extends Persona{
 
         Banco.usuarios.get(Rol.Cliente).add(new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro));
     }
+
+    public LocalDate getFechaRegistro(){
+        return fechaRegistro;
+    }
 }

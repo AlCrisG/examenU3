@@ -18,6 +18,23 @@ public class Persona {
     private Sucursal sucursal;
     private static int ID_USUARIO_ACUEDUCTO = 1, ID_USUARIO_MADERO = 1;
 
+    public Persona(String nombre, String primerApellido, String segundoApellido, String nombreUsuario, String contra, Sucursal sucursal, Rol rol){
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.sucursal = sucursal;
+        switch(sucursal){
+            case Acueducto: 
+                this.id = Persona.ID_USUARIO_ACUEDUCTO;
+                Persona.ID_USUARIO_ACUEDUCTO++;
+                break;
+            case Madero:
+                this.id = Persona.ID_USUARIO_MADERO;
+                Persona.ID_USUARIO_MADERO++;
+                break;
+        }
+    }
+
     public Persona(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion,String nombreUsuario, String contra, Rol rol, Sucursal sucursal){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -96,6 +113,14 @@ public class Persona {
 
     public String getContra() {
         return contra;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public Sucursal getSucursal(){
+        return sucursal;
     }
 
     private Estado obtenerEstado(int option){

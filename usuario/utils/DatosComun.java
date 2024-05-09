@@ -95,14 +95,13 @@ public class DatosComun {
         return Integer.toString(option);
     }
 
-    private static String obtenerNombreUsuario() {
-        Scanner scanner = new Scanner(System.in);
+    public static String obtenerNombreUsuario() {
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";
 
         do {
             System.out.println("Ingrese nombre de usuario: ");
-            nombreUsuario = scanner.nextLine();
+            nombreUsuario = leerCadenas.nextLine();
 
             nombreUsuarioExistente = false;
             for (Persona persona : Banco.usuarios.get(Rol.Cliente)) {
@@ -129,7 +128,7 @@ public class DatosComun {
                     nombreUsuarioExistente = true;
                 }
             }
-            for (Inversionista inversionista : Banco.usuarios.get(Rol.Inversionista)) {
+            for (Persona persona : Banco.usuarios.get(Rol.Inversionista)) {
                 Inversionista inversionista = (Inversionista) persona;
                 if (inversionista.getNombreUsuario().equals(nombreUsuario)) {
                     nombreUsuarioExistente = true;

@@ -14,7 +14,7 @@ public class Empleado extends Persona{
     private LocalDate fechaInicio;
     private double salario;
 
-    public Empleado(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, LocalDate fechaRegistro, Sucursal sucursal, double salario, Rol rol, String nombreUsuario, String contra){
+    public Empleado(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, LocalDate fechaInicio, Sucursal sucursal, double salario, Rol rol, String nombreUsuario, String contra){
         super(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, rol, sucursal);
         this.fechaInicio = fechaInicio;
         this.salario = salario;
@@ -40,5 +40,13 @@ public class Empleado extends Persona{
         double salario = leerNumeros.nextDouble();
 
         Banco.usuarios.get(rol).add(new Empleado(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, LocalDate.now(), sucursalRegistro,salario, rol, nombreUsuario, contra));
+    }
+
+    public LocalDate getFechaInicio(){
+        return fechaInicio;
+    }
+
+    public double getSalario(){
+        return salario;
     }
 }

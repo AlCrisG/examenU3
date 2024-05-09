@@ -147,7 +147,7 @@ public class BankSystem {
                                     System.out.print("Elige una opción: ");
                                     int opcionEmpleado = leerNum.nextInt();
 
-                                    switch (opcion){
+                                    switch (opcionEmpleado){
                                         case 1 -> Empleado.agregarEmpleado(Rol.GerenteSucursal, Sucursal.Madero);
                                         case 2 -> Empleado.agregarEmpleado(Rol.EjecutivoCuenta, Sucursal.Madero);
                                         case 3-> Empleado.agregarEmpleado(Rol.Capturista, Sucursal.Madero);
@@ -346,7 +346,7 @@ public class BankSystem {
                                 System.out.print("Elige una opción: ");
                                 int opcionEmpleado = leerNum.nextInt();
 
-                                switch (opcion){
+                                switch (opcionEmpleado){
                                     case 1 -> Empleado.agregarEmpleado(Rol.GerenteSucursal, Sucursal.Acueducto);
                                     case 2 -> Empleado.agregarEmpleado(Rol.EjecutivoCuenta, Sucursal.Acueducto);
                                     case 3-> Empleado.agregarEmpleado(Rol.Capturista, Sucursal.Acueducto);
