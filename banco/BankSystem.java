@@ -69,11 +69,11 @@ public class BankSystem {
 
     private void seleccionarMenu() {
         switch (UsuarioEnSesion.getInstancia().getUsuarioActual().getRol()) {
-            case Cliente -> mostrarMenuCliente();
-            case EjecutivoCuenta -> mostrarMenuEjecutivoCuenta();
+            case Cliente -> mostrarMenuCliente(UsuarioEnSesion.getInstancia().getUsuarioActual().getSucursal());
+            case EjecutivoCuenta -> mostrarMenuEjecutivoCuenta(UsuarioEnSesion.getInstancia().getUsuarioActual().getSucursal());
             case GerenteSucursal -> mostrarMenuGerente(UsuarioEnSesion.getInstancia().getUsuarioActual().getSucursal());
-            case Capturista -> mostrarMenuMaderoCapturista();
-            case Inversionista -> mostrarMenuMaderoInversionista();
+            case Capturista -> mostrarMenuCapturista(UsuarioEnSesion.getInstancia().getUsuarioActual().getSucursal());
+            case Inversionista -> mostrarMenuInversionista(UsuarioEnSesion.getInstancia().getUsuarioActual().getSucursal());
         }
     }
 
@@ -84,19 +84,19 @@ public class BankSystem {
         } while(opcion != 5);
     }
 
-    public void mostrarMenuCliente(){
+    public void mostrarMenuEjecutivoCuenta(Sucursal sucursal){
 
-}
-
-    public void mostrarMenuEjecutivoCuenta(){
+    }
+    
+    public void mostrarMenuCapturista(Sucursal sucursal){
 
     }
 
-    public void mostrarMenuMaderoCapturista(){
+    public void mostrarMenuInversionista(Sucursal sucursal){
 
     }
 
-    public void mostrarMenuMaderoInversionista(){
+    public void mostrarMenuCliente(Sucursal sucursal){
 
     }
 }
