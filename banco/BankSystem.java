@@ -1,6 +1,11 @@
 package banco;
 import java.util.Scanner;
+
+import banco.utils.Sucursal;
+import usuario.Cliente;
+import usuario.Empleado;
 import usuario.Persona;
+import usuario.utils.Rol;
 import usuario.utils.UsuarioEnSesion;
 
 public class BankSystem {
@@ -8,9 +13,7 @@ public class BankSystem {
     public static Scanner leerCad = new Scanner(System.in);
     Banco banco = new Banco();
 
-    public void ejecutarSistema(){
-        
-            boolean isCorrectPassword = false;
+    public void ejecutarSistema(){    
             int opcion=0;
             do {
                 System.out.println("\n*** BIENVENIDO ***");
@@ -19,28 +22,21 @@ public class BankSystem {
                 System.out.println("2.- Acueducto");
                 System.out.println("3.- Salir");
                 opcion = leerNum.nextInt();
-    
-                do {
-                    
-                    switch (opcion) {
-                        case 1:
-                            ejecutarSistemaMadero();
-                            break;
-                        case 2:
-                            ejecutarSistemaAcueducto();
-                            break;
-                        case 3:
+        
+                switch (opcion) {
+                    case 1:
+                        ejecutarSistemaMadero();
+                        break;
+                    case 2:
+                        ejecutarSistemaAcueducto();
+                        break;
+                    case 3:
                         System.exit(0);
-                            break;
-                        default:
-                            System.out.println("Opción no valida");
-                            break;
-                    }
-
-
-                } while (!isCorrectPassword);
-
-                
+                        break;
+                    default:
+                        System.out.println("Opción no valida");
+                        break;
+                }
             } while (true);
         
     }
@@ -135,10 +131,27 @@ public class BankSystem {
 
                             switch (opcionRegistrar) {
                                 case 1:
-                                    System.out.println("metodo registrar clientes");
+                                    Cliente.agregarCliente(Sucursal.Madero);
                                     break;
                                 case 2:
-                                    System.out.println("metodo registrar enmpleados");
+                                    System.out.println("+-------------------------+");
+                                    System.out.println("|    REGISTRAR EMPLEADO   |");
+                                    System.out.println("+-------------------------+");
+                                    System.out.println("| OPCION | DESCRIPCION    |");
+                                    System.out.println("+-------------------------+");
+                                    System.out.println("|   1    | Gerente        |");
+                                    System.out.println("|   2    | Ejecutivo      |");
+                                    System.out.println("|   3    | Capturista     |");
+                                    System.out.println("|   4    | Regresar       |");
+                                    System.out.println("+------------------------+");
+                                    System.out.print("Elige una opción: ");
+                                    int opcionEmpleado = leerNum.nextInt();
+
+                                    switch (opcion){
+                                        case 1 -> Empleado.agregarEmpleado(Rol.GerenteSucursal, Sucursal.Madero);
+                                        case 2 -> Empleado.agregarEmpleado(Rol.EjecutivoCuenta, Sucursal.Madero);
+                                        case 3-> Empleado.agregarEmpleado(Rol.Capturista, Sucursal.Madero);
+                                    }
                                     break;
                                 case 3:
                                     System.out.println("metodo registrar inverisonistas");
@@ -317,10 +330,27 @@ public class BankSystem {
 
                         switch (opcionRegistrar) {
                             case 1:
-                                System.out.println("metodo registrar clientes");
+                                Cliente.agregarCliente(Sucursal.Acueducto);
                                 break;
                             case 2:
-                                System.out.println("metodo registrar enmpleados");
+                                System.out.println("+-------------------------+");
+                                System.out.println("|    REGISTRAR EMPLEADO   |");
+                                System.out.println("+-------------------------+");
+                                System.out.println("| OPCION | DESCRIPCION    |");
+                                System.out.println("+-------------------------+");
+                                System.out.println("|   1    | Gerente        |");
+                                System.out.println("|   2    | Ejecutivo      |");
+                                System.out.println("|   3    | Capturista     |");
+                                System.out.println("|   4    | Regresar       |");
+                                System.out.println("+------------------------+");
+                                System.out.print("Elige una opción: ");
+                                int opcionEmpleado = leerNum.nextInt();
+
+                                switch (opcion){
+                                    case 1 -> Empleado.agregarEmpleado(Rol.GerenteSucursal, Sucursal.Acueducto);
+                                    case 2 -> Empleado.agregarEmpleado(Rol.EjecutivoCuenta, Sucursal.Acueducto);
+                                    case 3-> Empleado.agregarEmpleado(Rol.Capturista, Sucursal.Acueducto);
+                                }
                                 break;
                             case 3:
                                 System.out.println("metodo registrar inverisonistas");

@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import banco.Banco;
+import usuario.Cliente;
+import usuario.Empleado;
+import usuario.Inversionista;
+import usuario.Persona;
+
 public class DatosComun {
     private static Scanner leerCadenas = new Scanner(System.in);
     private static Scanner leerNumeros = new Scanner(System.in);
 
-    public static ArrayList obtenerDatosComun(){
+    public static ArrayList<String> obtenerDatosComun(){
         ArrayList<String> datosComun = new ArrayList<>(); 
 
         System.out.println("Ingrese nombre: ");
@@ -44,7 +50,12 @@ public class DatosComun {
         System.out.println("Dirección (Calle y número): ");
         String direccion = leerCadenas.nextLine();
 
-        datosComun.addAll(Arrays.asList(nombre, primerApellido, segundoApellido, fecha, genero, estado, ciudad, direccion));
+        String nombreUsuario = obtenerNombreUsuario();
+
+        System.out.println("Ingrese una contraseña: ");
+        String contra = leerCadenas.nextLine();
+
+        datosComun.addAll(Arrays.asList(nombre, primerApellido, segundoApellido, fecha, genero, estado, ciudad, direccion, nombreUsuario, contra));
         return datosComun;
     }
 
@@ -82,5 +93,54 @@ public class DatosComun {
         }while(option < 1 || option > 33);
 
         return Integer.toString(option);
+    }
+
+    private static String obtenerNombreUsuario() {
+        Scanner scanner = new Scanner(System.in);
+        boolean nombreUsuarioExistente = true;
+        String nombreUsuario = "";
+
+        do {
+            System.out.println("Ingrese nombre de usuario: ");
+            nombreUsuario = scanner.nextLine();
+
+            nombreUsuarioExistente = false;
+            for (Persona persona : Banco.usuarios.get(Rol.Cliente)) {
+                Cliente cliente = (Cliente) persona;
+                if (cliente.getNombreUsuario().equals(nombreUsuario)) {
+                    nombreUsuarioExistente = true;
+                }
+            }
+            for (Persona persona : Banco.usuarios.get(Rol.GerenteSucursal)) {
+                Empleado empleado = (Empleado) persona;
+                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
+                    nombreUsuarioExistente = true;
+                }
+            }
+            for (Persona persona : Banco.usuarios.get(Rol.EjecutivoCuenta)) {
+                Empleado empleado = (Empleado) persona;
+                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
+                    nombreUsuarioExistente = true;
+                }
+            }
+            for (Persona persona : Banco.usuarios.get(Rol.Capturista)) {
+                Empleado empleado = (Empleado) persona;
+                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
+                    nombreUsuarioExistente = true;
+                }
+            }
+            for (Inversionista inversionista : Banco.usuarios.get(Rol.Inversionista)) {
+                Inversionista inversionista = (Inversionista) persona;
+                if (inversionista.getNombreUsuario().equals(nombreUsuario)) {
+                    nombreUsuarioExistente = true;
+                }
+            }
+
+            if (nombreUsuarioExistente) {
+                System.out.println("El nombre de usuario ya existe. Intenta de nuevo\n");
+            }
+        } while (nombreUsuarioExistente);
+
+        return nombreUsuario;
     }
 }

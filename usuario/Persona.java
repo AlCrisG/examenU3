@@ -1,6 +1,7 @@
 package usuario;
 import java.time.LocalDate;
 
+import banco.utils.Sucursal;
 import usuario.utils.Curp;
 import usuario.utils.Estado;
 import usuario.utils.Genero;
@@ -8,31 +9,20 @@ import usuario.utils.Rfc;
 import usuario.utils.Rol;
 
 public class Persona {
-    String nombre, primerApellido, segundoApellido, ciudad, rfc, curp, direccion, nombreUsuario,contra;
-    Genero genero;
-    LocalDate fechaNacimiento;
-    Estado estado;
-    Rol rol;
+    private String nombre, primerApellido, segundoApellido, ciudad, rfc, curp, direccion, nombreUsuario,contra;
+    private Genero genero;
+    private LocalDate fechaNacimiento;
+    private Estado estado;
+    private Rol rol;
+    private int id;
+    private Sucursal sucursal;
+    private static int ID_USUARIO_ACUEDUCTO = 1, ID_USUARIO_MADERO = 1;
 
-    public Persona(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String estado, String nombreUsuario, String contra, Rol rol){
+    public Persona(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion,String nombreUsuario, String contra, Rol rol, Sucursal sucursal){
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
-        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(7)), Integer.parseInt(fecha.substring(0,3)), Integer.parseInt(fecha.substring(4,6)));
-        this.genero = obtenerGenero(genero);
-        this.estado = obtenerEstado(Integer.parseInt(estado));
-        this.rol = rol;
-        curp = Curp.crearCurp(nombre, primerApellido, segundoApellido, this.genero, fechaNacimiento, this.estado);
-        rfc = Rfc.crearRfc(curp);
-        System.out.println(curp);
-        System.out.println(rfc);
-    }
-
-    public Persona(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion,String nombreUsuario, String contra, Rol rol){
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(7)), Integer.parseInt(fecha.substring(0,3)), Integer.parseInt(fecha.substring(4,6)));
+        this.fechaNacimiento = LocalDate.of(Integer.parseInt(fecha.substring(6)), Integer.parseInt(fecha.substring(3,5)), Integer.parseInt(fecha.substring(0,2)));
         this.genero = obtenerGenero(genero);
         this.ciudad = ciudad;
         this.estado = obtenerEstado(Integer.parseInt(estado));
@@ -40,6 +30,17 @@ public class Persona {
         this.rol = rol;
         curp = Curp.crearCurp(nombre, primerApellido, segundoApellido, this.genero, fechaNacimiento, this.estado);
         rfc = Rfc.crearRfc(curp);
+        this.sucursal = sucursal;
+        switch(sucursal){
+            case Acueducto: 
+                this.id = ID_USUARIO_ACUEDUCTO;
+                ID_USUARIO_ACUEDUCTO++;
+                break;
+            case Madero:
+                this.id = ID_USUARIO_MADERO;
+                ID_USUARIO_MADERO++;
+                break;
+        }
         System.out.println(curp);
         System.out.println(rfc);
     }
