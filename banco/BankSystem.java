@@ -1,7 +1,11 @@
 package banco;
 import java.util.Scanner;
 
+import banco.menus.MenuCapturista;
+import banco.menus.MenuCliente;
+import banco.menus.MenuEjecutivo;
 import banco.menus.MenuGerenteSucursal;
+import banco.menus.MenuInversionista;
 import banco.utils.Sucursal;
 import usuario.Persona;
 import usuario.utils.UsuarioEnSesion;
@@ -90,18 +94,18 @@ public class BankSystem {
     }
 
     public void mostrarMenuEjecutivoCuenta(Sucursal sucursal){
-
+        MenuEjecutivo.mostrarMenuEjecutivo(sucursal);
     }
     
     public void mostrarMenuCapturista(Sucursal sucursal){
-
+        MenuCapturista.mostrarMenuCapturista(sucursal);
     }
 
     public void mostrarMenuInversionista(Sucursal sucursal){
-
+        MenuInversionista.mostrarMenuInversionista(sucursal);
     }
 
     public void mostrarMenuCliente(Sucursal sucursal){
-
+        MenuCliente.mostrarMenuCliente(sucursal);
     }
 }

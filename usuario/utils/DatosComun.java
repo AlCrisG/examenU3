@@ -56,7 +56,7 @@ public class DatosComun {
         return datosComun;
     }
 
-    private static String obtenerEstado(){
+    public static String obtenerEstado(){
         int option;
 
         do{

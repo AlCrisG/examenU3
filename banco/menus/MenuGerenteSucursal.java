@@ -5,6 +5,7 @@ import java.util.Scanner;
 import banco.utils.Sucursal;
 import usuario.Cliente;
 import usuario.Empleado;
+import usuario.Inversionista;
 import usuario.utils.Rol;
 
 public class MenuGerenteSucursal {
@@ -74,7 +75,7 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 3:
-                            System.out.println("Registrar inversionista");
+                            Inversionista.agregarInversionista(sucursal);
                             break;
 
                         case 4:
@@ -106,7 +107,24 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 2:
-                            System.out.println("Modificar empleado");
+                        System.out.println("+-------------------------+");
+                        System.out.println("|    MODIFICAR EMPLEADO   |");
+                        System.out.println("+-------------------------+");
+                        System.out.println("| OPCION | DESCRIPCION    |");
+                        System.out.println("+-------------------------+");
+                        System.out.println("|   1    | Gerente        |");
+                        System.out.println("|   2    | Ejecutivo      |");
+                        System.out.println("|   3    | Capturista     |");
+                        System.out.println("|   4    | Regresar       |");
+                        System.out.println("+------------------------+");
+                        System.out.print("Elige una opción: ");
+                        int opcionEmpleado = leerNum.nextInt();
+
+                        switch(opcionEmpleado){
+                            case 1 -> Empleado.modificarEmpleado(Rol.GerenteSucursal,sucursal);
+                            case 2 -> Empleado.modificarEmpleado(Rol.EjecutivoCuenta, sucursal);
+                            case 3-> Empleado.modificarEmpleado(Rol.Capturista, sucursal);
+                        }
                             break;
 
                         case 3:

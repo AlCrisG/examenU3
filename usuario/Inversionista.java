@@ -8,14 +8,14 @@ import usuario.utils.DatosComun;
 import usuario.utils.Rol;
 
 public class Inversionista extends Persona{
-    private Scanner leerCadenas = new Scanner(System.in);
+    private static Scanner leerCadenas = new Scanner(System.in);
     private long dineroInvertido = 0;
 
     public Inversionista(String nombre, String primerApellido, String segundoApellido, String nombreUsuario, String contra, Sucursal sucursal){
         super(nombre, primerApellido, segundoApellido, nombreUsuario, contra, sucursal, Rol.Inversionista);
     }
 
-    public void agregarInversionista(Sucursal sucursal){
+    public static void agregarInversionista(Sucursal sucursal){
 
         System.out.println("Ingrese nombre:");
         String nombre = leerCadenas.nextLine();
