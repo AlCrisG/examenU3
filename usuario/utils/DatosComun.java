@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import banco.Banco;
-import usuario.Cliente;
-import usuario.Empleado;
-import usuario.Inversionista;
 import usuario.Persona;
 
 public class DatosComun {
@@ -104,34 +101,20 @@ public class DatosComun {
             nombreUsuario = leerCadenas.nextLine();
 
             nombreUsuarioExistente = false;
-            for (Persona persona : Banco.usuarios.get(Rol.Cliente)) {
-                Cliente cliente = (Cliente) persona;
-                if (cliente.getNombreUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
+            for(int i = 0; i < 5; i++){
+                Rol rol = null;
+                switch(i){
+                    case 0 -> rol = Rol.Capturista;
+                    case 1 -> rol = Rol.Cliente;
+                    case 2 -> rol = Rol.EjecutivoCuenta;
+                    case 3 -> rol = Rol.GerenteSucursal;
+                    case 4 -> rol = Rol.Inversionista;
                 }
-            }
-            for (Persona persona : Banco.usuarios.get(Rol.GerenteSucursal)) {
-                Empleado empleado = (Empleado) persona;
-                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
-                }
-            }
-            for (Persona persona : Banco.usuarios.get(Rol.EjecutivoCuenta)) {
-                Empleado empleado = (Empleado) persona;
-                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
-                }
-            }
-            for (Persona persona : Banco.usuarios.get(Rol.Capturista)) {
-                Empleado empleado = (Empleado) persona;
-                if (empleado.getNombreUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
-                }
-            }
-            for (Persona persona : Banco.usuarios.get(Rol.Inversionista)) {
-                Inversionista inversionista = (Inversionista) persona;
-                if (inversionista.getNombreUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
+    
+                for(Persona persona : Banco.usuarios.get(rol)){
+                    if(persona.getNombreUsuario().equals(nombreUsuario)){
+                        nombreUsuarioExistente = true;
+                    }
                 }
             }
 

@@ -1,6 +1,7 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import banco.Banco;
@@ -35,7 +36,26 @@ public class Cliente extends Persona{
         Banco.usuarios.get(Rol.Cliente).add(new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro));
     }
 
-    public LocalDate getFechaRegistro(){
-        return fechaRegistro;
+    public static void mostrarInformacionTodos(Sucursal sucursal){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int cont = 0;
+        if(Banco.usuarios.get(Rol.Cliente).isEmpty()){
+            System.out.println("No se han agregado usuarios de dicho rol.");
+        }
+        else{
+            for(Persona persona : Banco.usuarios.get(Rol.Cliente)){
+                Cliente cliente = (Cliente) persona;
+                if(cliente.getSucursal() == sucursal){
+                    Persona.mostrarInformacion(Rol.Cliente, sucursal);
+                    System.out.printf("Fecha de registro: %s%n", cliente.fechaRegistro.format(formatter));
+                    cont++;
+                }
+            }
+            if(cont == 0){
+                System.out.println("No se han agregado usuarios de dicho rol.");
+            } else{
+                System.out.println("======================================================");
+            }
+        }
     }
 }

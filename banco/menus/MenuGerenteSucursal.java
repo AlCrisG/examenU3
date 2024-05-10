@@ -138,7 +138,31 @@ public class MenuGerenteSucursal {
 
                     switch(opcionConsultar){
                         case 1:
-                            System.out.println("Consultar clientes");
+                            System.out.println("+-------------------------+");
+                            System.out.println("|     MENU CONSULTAR      |");
+                            System.out.println("+-------------------------+");
+                            System.out.println("| OPCION | DESCRIPCION    |");
+                            System.out.println("+-------------------------+");
+                            System.out.println("|   1    | Todos          |");
+                            System.out.println("|   2    | Buscar por ID  |");
+                            System.out.println("|   3    | Regresar       |");
+                            System.out.println("+------------------------+");
+                            System.out.print("Elige una opción: ");
+                            int consultarCliente = leerNum.nextInt();
+
+                            switch (consultarCliente) {
+                                case 1:
+                                    Cliente.mostrarInformacionTodos(sucursal);
+                                    break;
+
+                                case 2:
+                                    System.out.println("Método buscar por ID");
+                                    break;
+                            
+                                default:
+                                    System.out.println("Opción no válida.");
+                                    break;
+                            }
                             break;
 
                         case 2:

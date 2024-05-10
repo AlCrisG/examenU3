@@ -1,6 +1,8 @@
 package usuario;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import banco.Banco;
 import banco.utils.Sucursal;
 import usuario.utils.Curp;
 import usuario.utils.Estado;
@@ -16,7 +18,7 @@ public class Persona {
     private Rol rol;
     private int id;
     private Sucursal sucursal;
-    private static int ID_USUARIO_ACUEDUCTO = 1, ID_USUARIO_MADERO = 1;
+    private static int ID_USUARIO_ACUEDUCTO = 0, ID_USUARIO_MADERO = 0;
 
     public Persona(String nombre, String primerApellido, String segundoApellido, String nombreUsuario, String contra, Sucursal sucursal, Rol rol){
         this.nombre = nombre;
@@ -53,7 +55,7 @@ public class Persona {
         rfc = Rfc.crearRfc(curp);
         this.sucursal = sucursal;
         switch(sucursal){
-            case Acueducto: 
+            case Acueducto:
                 this.id = ID_USUARIO_ACUEDUCTO;
                 ID_USUARIO_ACUEDUCTO++;
                 break;
@@ -62,49 +64,6 @@ public class Persona {
                 ID_USUARIO_MADERO++;
                 break;
         }
-        System.out.println(curp);
-        System.out.println(rfc);
-    }
-
-    
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public String getRfc() {
-        return rfc;
-    }
-
-    public String getCurp() {
-        return curp;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public Estado getEstado() {
-        return estado;
     }
 
     public Rol getRol() {
@@ -181,5 +140,30 @@ public class Persona {
         return genero;
     }
 
-
+    protected static void mostrarInformacion(Rol rol, Sucursal sucursal){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int cont = 0;
+        if(Banco.usuarios.get(rol).isEmpty()){
+            System.out.println("No se han agregado usuarios de dicho rol.");
+        }
+        else{
+            for(Persona persona : Banco.usuarios.get(rol)){
+                if(persona.sucursal == sucursal){
+                    System.out.println("======================================================");
+                    System.out.printf("ID: %s%n", persona.id);
+                    System.out.printf("Nombre completo: %s %s %s%n", persona.nombre, persona.primerApellido, persona.segundoApellido);
+                    System.out.printf("Fecha de nacimiento: %s%n", persona.fechaNacimiento.format(formatter));
+                    System.out.printf("CURP: %s%n", persona.curp);
+                    System.out.printf("RFC: %s%n", persona.rfc);
+                    System.out.printf("Dirección: %s%n", persona.direccion);
+                    System.out.printf("Ciudad: %s%n", persona.ciudad);
+                    System.out.printf("Estado: %s%n", persona.estado);
+                    cont++;
+                }
+            }
+            if(cont == 0){
+                System.out.println("No se han agregado usuarios de dicho rol.");
+            }
+        }
+    }
 }
