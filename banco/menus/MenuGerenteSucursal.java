@@ -153,22 +153,31 @@ public class MenuGerenteSucursal {
                     System.out.println("+------------------------+");
                     System.out.print("Elige una opción: ");
                     int opcionConsultar = leerNum.nextInt();
+                    int consultar = 0;
+
+                    if(opcionConsultar < 4 && opcionConsultar > 0){
+                        System.out.println("+-------------------------+");
+                        System.out.println("|     MENU CONSULTAR      |");
+                        System.out.println("+-------------------------+");
+                        System.out.println("| OPCION | DESCRIPCION    |");
+                        System.out.println("+-------------------------+");
+                        System.out.println("|   1    | Todos          |");
+                        if(opcionConsultar == 2){
+                            System.out.println("|   2    | Buscar por ID  |");
+                            System.out.println("|   3    | Por rol        |");
+                            System.out.println("|   4    | Regresar       |");
+                        } else{
+                            System.out.println("|   2    | Buscar por ID  |");
+                            System.out.println("|   3    | Regresar       |");
+                        }
+                        System.out.println("+------------------------+");
+                        System.out.print("Elige una opción: ");
+                        consultar = leerNum.nextInt();
+                    }
 
                     switch(opcionConsultar){
                         case 1:
-                            System.out.println("+-------------------------+");
-                            System.out.println("|     MENU CONSULTAR      |");
-                            System.out.println("+-------------------------+");
-                            System.out.println("| OPCION | DESCRIPCION    |");
-                            System.out.println("+-------------------------+");
-                            System.out.println("|   1    | Todos          |");
-                            System.out.println("|   2    | Buscar por ID  |");
-                            System.out.println("|   3    | Regresar       |");
-                            System.out.println("+------------------------+");
-                            System.out.print("Elige una opción: ");
-                            int consultarCliente = leerNum.nextInt();
-
-                            switch (consultarCliente) {
+                            switch (consultar) {
                                 case 1:
                                     Cliente.mostrarInformacionTodos(sucursal);
                                     break;
@@ -176,7 +185,10 @@ public class MenuGerenteSucursal {
                                 case 2:
                                     System.out.println("Método buscar por ID");
                                     break;
-                            
+
+                                case 3:
+                                    break;
+
                                 default:
                                     System.out.println("Opción no válida.");
                                     break;
@@ -184,8 +196,30 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 2:
-                            System.out.println("Consultar empleado");
-                            break;
+                        switch (consultar) {
+                            case 1:
+                                for(int i= 0; i < 3; i++){
+                                    Rol rol = null;
+                                    switch (i) {
+                                        case 0 -> rol = Rol.Capturista;
+                                        case 1 -> rol = Rol.EjecutivoCuenta;
+                                        case 2 -> rol = Rol.GerenteSucursal;
+                                    }
+                                    Empleado.mostrarInformacionTodos(rol, sucursal);
+                                }
+                            case 2:
+                                System.out.println("Método buscar por ID");
+                                break;
+
+                            case 3:
+                                System.out.println("Método por rol");
+                                break;
+                            
+                            default:
+                                System.out.println("Opción no válida.");
+                                break;
+                        }
+                        break;
 
                         case 3:
                             System.out.println("Consultar inversionistas");

@@ -1,6 +1,7 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -135,6 +136,23 @@ public class Empleado extends Persona{
         }
     }
     
-
+    public static void mostrarInformacionTodos(Rol rol, Sucursal sucursal){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int cont = 0;
+        for(Persona persona : Banco.usuarios.get(rol)){
+            Empleado empleado = (Empleado) persona;
+            if(empleado.getSucursal() == sucursal){
+                Persona.mostrarInformacion(rol, sucursal);
+                System.out.printf("Fecha de inicio: %s%n", empleado.fechaInicio.format(formatter));
+                cont++;
+            }
+        }
+        if(cont == 0){
+            System.out.println("No se han agregado usuarios de dicho rol.");
+        } else{
+            System.out.println("======================================================");
+        }
+        }
+    }
     
-}
+
