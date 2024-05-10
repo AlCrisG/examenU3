@@ -1,6 +1,5 @@
 package banco;
 import java.util.Scanner;
-
 import banco.menus.MenuCapturista;
 import banco.menus.MenuCliente;
 import banco.menus.MenuEjecutivo;

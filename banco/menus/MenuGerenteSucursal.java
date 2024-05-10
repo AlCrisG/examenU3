@@ -163,9 +163,8 @@ public class MenuGerenteSucursal {
                         System.out.println("+-------------------------+");
                         System.out.println("|   1    | Todos          |");
                         if(opcionConsultar == 2){
-                            System.out.println("|   2    | Buscar por ID  |");
-                            System.out.println("|   3    | Por rol        |");
-                            System.out.println("|   4    | Regresar       |");
+                            System.out.println("|   2    | Buscar por ID o Rol |");
+                            System.out.println("|   3    | Regresar       |");
                         } else{
                             System.out.println("|   2    | Buscar por ID  |");
                             System.out.println("|   3    | Regresar       |");
@@ -176,10 +175,11 @@ public class MenuGerenteSucursal {
                     }
 
                     switch(opcionConsultar){
+                        //Consultar Clientes
                         case 1:
                             switch (consultar) {
                                 case 1:
-                                    Cliente.mostrarInformacionTodos(sucursal);
+                                    Cliente.mostrarInformacionTodosClientes(sucursal);
                                     break;
 
                                 case 2:
@@ -194,7 +194,7 @@ public class MenuGerenteSucursal {
                                     break;
                             }
                             break;
-
+                        //Consultar Empleados
                         case 2:
                         switch (consultar) {
                             case 1:
@@ -205,15 +205,26 @@ public class MenuGerenteSucursal {
                                         case 1 -> rol = Rol.EjecutivoCuenta;
                                         case 2 -> rol = Rol.GerenteSucursal;
                                     }
-                                    Empleado.mostrarInformacionTodos(rol, sucursal);
+                                    Empleado.mostrarInformacionTodosEmpleados(rol, sucursal);
                                 }
                             case 2:
-                                System.out.println("Método buscar por ID");
+
+                                System.out.println("Ingrese qué empleados quiere consultar");
+                                System.out.println("1.- Gerentes");
+                                System.out.println("2.- Ejecutivos");
+                                System.out.println("3.- Capturistas");
+                                int opcionConsultarEmpleadoXRol = leerNum.nextInt();
+                                switch (opcionConsultarEmpleadoXRol) {
+                                    case 1 -> Empleado.consultarEmpleados(Rol.GerenteSucursal, sucursal);
+                                    case 2 -> Empleado.consultarEmpleados(Rol.EjecutivoCuenta, sucursal);
+                                    case 3 -> Empleado.consultarEmpleados(Rol.Capturista, sucursal);
+                                    default -> System.out.println("Opcion invalida");
+                                }
+                                
                                 break;
 
                             case 3:
-                                System.out.println("Método por rol");
-                                break;
+                                return;
                             
                             default:
                                 System.out.println("Opción no válida.");

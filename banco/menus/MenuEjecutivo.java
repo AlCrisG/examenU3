@@ -42,7 +42,7 @@ public class MenuEjecutivo {
                     break;
 
                 case 3:
-                    Cliente.mostrarInformacionTodos(sucursal);
+                    Cliente.mostrarInformacionTodosClientes(sucursal);
                     break;
 
                 case 4:

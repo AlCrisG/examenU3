@@ -1,7 +1,5 @@
 package usuario.utils;
 
-
-
 import usuario.Persona;
 
 public class UsuarioEnSesion {

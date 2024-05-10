@@ -36,7 +36,7 @@ public class Cliente extends Persona{
         Banco.usuarios.get(Rol.Cliente).add(new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro));
     }
 
-    public static void mostrarInformacionTodos(Sucursal sucursal){
+    public static void mostrarInformacionTodosClientes(Sucursal sucursal){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         int cont = 0;
         if(Banco.usuarios.get(Rol.Cliente).isEmpty()){

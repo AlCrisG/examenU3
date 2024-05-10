@@ -136,23 +136,102 @@ public class Empleado extends Persona{
         }
     }
     
-    public static void mostrarInformacionTodos(Rol rol, Sucursal sucursal){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        int cont = 0;
-        for(Persona persona : Banco.usuarios.get(rol)){
+    public static void mostrarInformacionTodosEmpleados(Rol rol, Sucursal sucursal) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    int cont = 0;
+    for (Persona persona : Banco.usuarios.get(rol)) {
+        if (persona instanceof Empleado && persona.getSucursal() == sucursal) {
             Empleado empleado = (Empleado) persona;
-            if(empleado.getSucursal() == sucursal){
-                Persona.mostrarInformacion(rol, sucursal);
-                System.out.printf("Fecha de inicio: %s%n", empleado.fechaInicio.format(formatter));
-                cont++;
-            }
-        }
-        if(cont == 0){
-            System.out.println("No se han agregado usuarios de dicho rol.");
-        } else{
             System.out.println("======================================================");
-        }
+            System.out.printf("ID: %s%n", empleado.getId());
+            System.out.printf("Nombre completo: %s %s %s%n", empleado.getNombre(), empleado.getPrimerApellido(), empleado.getSegundoApellido());
+            System.out.printf("Fecha de inicio: %s%n", empleado.getFechaInicio().format(formatter));
+            System.out.printf("Salario: %s%n", empleado.getSalario());
+            cont++;
         }
     }
+    if (cont == 0) {
+        System.out.println("No se han agregado empleados para mostrar.");
+    }
+}
+
+
+
+    public static void consultarEmpleadoPorID(int id, Rol rol, Sucursal sucursal) {
+        for (Persona usuario : Banco.usuarios.get(rol)) {
+            if (usuario instanceof Empleado && usuario.getId() == id && usuario.getSucursal() == sucursal) {
+                Empleado empleado = (Empleado) usuario;
+                System.out.println("ID: " + empleado.getId());
+                System.out.println("Nombre: " + empleado.getNombre());
+                System.out.println("Apellido: " + empleado.getPrimerApellido());
+                System.out.println("Salario: " + empleado.getSalario());
+                System.out.println("Rol: "+ empleado.getRol());
+                // Puedes mostrar más información si lo deseas
+                return; // Terminamos la función luego de encontrar el empleado
+            }
+        }
+        System.out.println("No se encontró ningún empleado con ese ID y rol en la sucursal.");
+    }
+
+    public static void consultarEmpleadosPorRol(Rol rol, Sucursal sucursal) {
+        System.out.println("Empleados registrados con el rol " + rol + ":");
+        for (Persona usuario : Banco.usuarios.get(rol)) {
+            if (usuario instanceof Empleado && usuario.getSucursal() == sucursal) {
+                Empleado empleado = (Empleado) usuario;
+                System.out.println("ID: " + empleado.getId());
+                System.out.println("Nombre: " + empleado.getNombre());
+                System.out.println("Apellido: " + empleado.getPrimerApellido());
+                System.out.println("Salario: " + empleado.getSalario());
+                // Puedes mostrar más información si lo deseas
+                System.out.println("-----------------------------");
+            }
+        }
+    }
+
+    public static void consultarEmpleados(Rol rol, Sucursal sucursal) {
+    
+        System.out.println("¿Cómo desea consultar los empleados?");
+        System.out.println("1. Por ID");
+        System.out.println("2. Por Rol");
+    
+        int opcion = leerNumeros.nextInt();
+    
+        switch (opcion) {
+            case 1:
+                System.out.println("Ingrese el ID del empleado a consultar:");
+                int id = leerNumeros.nextInt();
+                consultarEmpleadoPorID(id, rol, sucursal);
+                break;
+            case 2:
+                System.out.println("Rol de empleado a consultar:");
+                System.out.println("1.- Gerente ");
+                System.out.println("2.- Ejecutivo ");
+                System.out.println("3.- Capturista ");
+                int opcionConsultar = leerNumeros.nextInt();
+                switch (opcionConsultar) {
+                    case 1:
+                        consultarEmpleadosPorRol(Rol.GerenteSucursal, sucursal);
+                        break;
+                    case 2:
+                        consultarEmpleadosPorRol(Rol.EjecutivoCuenta, sucursal);
+                        break;
+                    case 3:
+                        consultarEmpleadosPorRol(Rol.Capturista, sucursal);
+                        break;
+
+                    default:
+                        break;
+                }
+                
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                break;
+        }
+    }
+
+
+    
+}
     
 
