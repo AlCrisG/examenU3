@@ -2,7 +2,6 @@ package usuario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import banco.Banco;
 import banco.utils.Sucursal;
 import usuario.utils.Curp;
 import usuario.utils.Estado;
@@ -39,7 +38,7 @@ public class Persona {
                 
                 break;
         }
-        System.out.printf("Empleado registrado con éxito. ID: %s%n", id);
+        this.rol = rol;
     }
 
     public Persona(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion,String nombreUsuario, String contra, Rol rol, Sucursal sucursal){

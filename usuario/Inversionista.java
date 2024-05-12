@@ -1,15 +1,17 @@
 package usuario;
 
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import banco.Banco;
+import banco.Inversion;
 import banco.utils.Sucursal;
 import usuario.utils.DatosComun;
 import usuario.utils.Rol;
 
 public class Inversionista extends Persona{
     private static Scanner leerCadenas = new Scanner(System.in);
+    private static Scanner leerNumeros = new Scanner(System.in);
     private long dineroInvertido = 0;
 
     public Inversionista(String nombre, String primerApellido, String segundoApellido, String nombreUsuario, String contra, Sucursal sucursal){
@@ -39,7 +41,12 @@ public class Inversionista extends Persona{
         return dineroInvertido;
     }
 
+    public String getNombreCompleto(){
+        return super.getNombre() + " " + super.getPrimerApellido() + " " + super.getSegundoApellido();
+    }
+
     public static void modificarInversionista(Sucursal sucursal) {
+        @SuppressWarnings("resource")
         Scanner leerNumeros = new Scanner(System.in);
     
         System.out.println("Ingrese el ID del Inversionista a modificar: ");
@@ -112,7 +119,9 @@ public class Inversionista extends Persona{
             for(Persona persona : Banco.usuarios.get(Rol.Inversionista)){
                 Inversionista inversionista = (Inversionista) persona;
                 if(inversionista.getSucursal() == sucursal){
-                    Persona.mostrarInformacion(persona);
+                    System.out.println("======================================================");
+                    System.out.printf("ID: %s%n", inversionista.getId());
+                    System.out.printf("Nombre completo: %s %s %s%n", inversionista.getNombre(), inversionista.getPrimerApellido(), inversionista.getSegundoApellido());
                     System.out.printf("Dinero invertido: %s%n", inversionista.dineroInvertido);
                     cont++;
                 }
@@ -135,11 +144,11 @@ public class Inversionista extends Persona{
         for (Persona usuario : Banco.usuarios.get(Rol.Inversionista)) {
             if (usuario instanceof Inversionista && usuario.getId() == id && usuario.getSucursal() == sucursal) {
                 Inversionista inversionista = (Inversionista) usuario;
-                System.out.println("ID: " + inversionista.getId());
-                System.out.println("Nombre: " + inversionista.getNombre());
-                System.out.println("Apellido: " + inversionista.getPrimerApellido());
-                System.out.println("Ciudad: " + inversionista.getCiudad());
-                System.out.println("Dinero invertido: "+ inversionista.getDineroInvertido());
+                System.out.println("======================================================");
+                System.out.printf("ID: %s%n", inversionista.getId());
+                System.out.printf("Nombre completo: %s %s %s%n", inversionista.getNombre(), inversionista.getPrimerApellido(), inversionista.getSegundoApellido());
+                System.out.printf("Dinero invertido: %s%n", inversionista.dineroInvertido);
+                System.out.println("======================================================");
                 return; 
             }
         }
@@ -168,8 +177,13 @@ public class Inversionista extends Persona{
         }else{
             System.out.println("No pudo eliminarse al inversionista.");
         }
-        
-        
     }
 
+    public static void hacerInversion(Inversionista inversionista, Sucursal sucursal){
+        System.out.println("Ingrese el monto de la inversión: ");
+        long montoInversion = leerNumeros.nextLong();
+
+        inversionista.dineroInvertido += montoInversion;
+        Banco.inversiones.add(new Inversion(montoInversion, LocalDateTime.now(), inversionista, sucursal));
+    }
 }

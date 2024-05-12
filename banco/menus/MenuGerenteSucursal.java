@@ -2,6 +2,8 @@ package banco.menus;
 
 import java.util.Scanner;
 
+import banco.Banco;
+import banco.Inversion;
 import banco.utils.Sucursal;
 import usuario.Cliente;
 import usuario.Empleado;
@@ -10,6 +12,7 @@ import usuario.utils.Rol;
 
 public class MenuGerenteSucursal {
     private static Scanner leerNum = new Scanner(System.in);
+    private static Scanner leerCadenas = new Scanner(System.in);
 
     public static void mostrarMenuGerenteSucursal(Sucursal sucursal){
         int opcion = 0;
@@ -75,7 +78,14 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 3:
-                            Inversionista.agregarInversionista(sucursal);
+                            System.out.println("Ingrese la contraseña: ");
+                            String password = leerCadenas.nextLine();
+
+                            boolean contrasenaCorrecta = Banco.contraInversionistas(password, sucursal);
+
+                            if(contrasenaCorrecta){
+                                Inversionista.agregarInversionista(sucursal);
+                            }
                             break;
 
                         case 4:
@@ -128,7 +138,14 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 3:
-                            Inversionista.modificarInversionista(sucursal);
+                            System.out.println("Ingrese la contraseña: ");
+                            String password = leerCadenas.nextLine();
+
+                            boolean contrasenaCorrecta = Banco.contraInversionistas(password, sucursal);
+
+                            if(contrasenaCorrecta){
+                                Inversionista.modificarInversionista(sucursal);
+                            }
                             break;
 
                         case 4:
@@ -149,13 +166,25 @@ public class MenuGerenteSucursal {
                     System.out.println("|   1    | Clientes       |");
                     System.out.println("|   2    | Empleados      |");
                     System.out.println("|   3    | Inversionistas |");
-                    System.out.println("|   4    | Regresar       |");
+                    System.out.println("|   4    | Inversiones    |");
+                    System.out.println("|   5    | Regresar       |");
                     System.out.println("+------------------------+");
                     System.out.print("Elige una opción: ");
                     int opcionConsultar = leerNum.nextInt();
                     int consultar = 0;
 
-                    if(opcionConsultar < 4 && opcionConsultar > 0){
+                    if(opcionConsultar == 3 || opcionConsultar == 4){
+                        System.out.println("Ingrese la contraseña: ");
+                        String password = leerCadenas.nextLine();
+
+                        boolean contrasenaCorrecta = Banco.contraInversionistas(password, sucursal);
+
+                        if(!contrasenaCorrecta){
+                            break;
+                        }
+                    }
+
+                    if(opcionConsultar < 5 && opcionConsultar > 0){
                         System.out.println("+-------------------------+");
                         System.out.println("|     MENU CONSULTAR      |");
                         System.out.println("+-------------------------+");
@@ -163,12 +192,15 @@ public class MenuGerenteSucursal {
                         System.out.println("+-------------------------+");
                         System.out.println("|   1    | Todos          |");
                         if(opcionConsultar == 2){
-                            System.out.println("|   2    | Buscar por ID o Rol |");
-                            System.out.println("|   3    | Regresar       |");
-                        } else{
-                            System.out.println("|   2    | Buscar por ID  |");
-                            System.out.println("|   3    | Regresar       |");
+                            System.out.println("|   2    | Por ID o Rol   |");
                         }
+                        else if(opcionConsultar == 4){
+                            System.out.println("|   2    | Por inversor   |");
+                        }
+                        else{
+                            System.out.println("|   2    | Buscar por ID  |");
+                        }
+                        System.out.println("|   3    | Regresar       |");
                         System.out.println("+------------------------+");
                         System.out.print("Elige una opción: ");
                         consultar = leerNum.nextInt();
@@ -239,6 +271,24 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 4:
+                            switch (consultar) {
+                                case 1:
+                                    Inversion.consultarTodas(sucursal);
+                                    break;
+
+                                case 2:
+                                    System.out.println("Ingrese el ID del inversor: ");
+                                    int id = leerNum.nextInt();
+                                    Inversion.consultarPorInversor(id, sucursal);
+                                    break;
+
+                                default:
+                                    System.out.println("Opción no válida.");
+                                    break;
+                            }
+                            break;
+
+                        case 5:
                             break;
 
                         default:
@@ -271,7 +321,14 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 3:
-                            Inversionista.eliminarInversionista(sucursal);
+                            System.out.println("Ingrese la contraseña: ");
+                            String password = leerCadenas.nextLine();
+
+                            boolean contrasenaCorrecta = Banco.contraInversionistas(password, sucursal);
+
+                            if(contrasenaCorrecta){
+                                Inversionista.eliminarInversionista(sucursal);
+                            }
                             break;
                             
                         case 4:
