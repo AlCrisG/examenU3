@@ -221,30 +221,16 @@ public class Persona {
         return genero;
     }
 
-    protected static void mostrarInformacion(Rol rol, Sucursal sucursal){
+    protected static void mostrarInformacion(Persona persona){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        int cont = 0;
-        if(Banco.usuarios.get(rol).isEmpty()){
-            System.out.println("No se han agregado usuarios de dicho rol.");
-        }
-        else{
-            for(Persona persona : Banco.usuarios.get(rol)){
-                if(persona.sucursal == sucursal){
-                    System.out.println("======================================================");
-                    System.out.printf("ID: %s%n", persona.id);
-                    System.out.printf("Nombre completo: %s %s %s%n", persona.nombre, persona.primerApellido, persona.segundoApellido);
-                    System.out.printf("Fecha de nacimiento: %s%n", persona.fechaNacimiento.format(formatter));
-                    System.out.printf("CURP: %s%n", persona.curp);
-                    System.out.printf("RFC: %s%n", persona.rfc);
-                    System.out.printf("Dirección: %s%n", persona.direccion);
-                    System.out.printf("Ciudad: %s%n", persona.ciudad);
-                    System.out.printf("Estado: %s%n", persona.estado);
-                    cont++;
-                }
-            }
-            if(cont == 0){
-                System.out.println("No se han agregado usuarios de dicho rol.");
-            }
-        }
+        System.out.println("======================================================");
+        System.out.printf("ID: %s%n", persona.id);
+        System.out.printf("Nombre completo: %s %s %s%n", persona.nombre, persona.primerApellido, persona.segundoApellido);
+        System.out.printf("Fecha de nacimiento: %s%n", persona.fechaNacimiento.format(formatter));
+        System.out.printf("CURP: %s%n", persona.curp);
+        System.out.printf("RFC: %s%n", persona.rfc);
+        System.out.printf("Dirección: %s%n", persona.direccion);
+        System.out.printf("Ciudad: %s%n", persona.ciudad);
+        System.out.printf("Estado: %s%n", persona.estado);
     }
 }

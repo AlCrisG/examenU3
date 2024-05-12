@@ -5,13 +5,14 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import banco.Banco;
+import banco.utils.Sucursal;
 import usuario.Persona;
 
 public class DatosComun {
     private static Scanner leerCadenas = new Scanner(System.in);
     private static Scanner leerNumeros = new Scanner(System.in);
 
-    public static ArrayList<String> obtenerDatosComun(){
+    public static ArrayList<String> obtenerDatosComun(Sucursal sucursal){
         ArrayList<String> datosComun = new ArrayList<>(); 
 
         System.out.println("Ingrese nombre: ");
@@ -47,7 +48,7 @@ public class DatosComun {
         System.out.println("Dirección (Calle y número): ");
         String direccion = leerCadenas.nextLine();
 
-        String nombreUsuario = obtenerNombreUsuario();
+        String nombreUsuario = obtenerNombreUsuario(sucursal);
 
         System.out.println("Ingrese una contraseña: ");
         String contra = leerCadenas.nextLine();
@@ -92,7 +93,7 @@ public class DatosComun {
         return Integer.toString(option);
     }
 
-    public static String obtenerNombreUsuario() {
+    public static String obtenerNombreUsuario(Sucursal sucursal) {
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";
 
@@ -112,8 +113,10 @@ public class DatosComun {
                 }
     
                 for(Persona persona : Banco.usuarios.get(rol)){
-                    if(persona.getNombreUsuario().equals(nombreUsuario)){
-                        nombreUsuarioExistente = true;
+                    if(persona.getSucursal() == sucursal){
+                        if(persona.getNombreUsuario().equals(nombreUsuario)){
+                            nombreUsuarioExistente = true;
+                        }
                     }
                 }
             }

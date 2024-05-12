@@ -27,7 +27,7 @@ public class Inversionista extends Persona{
         System.out.println("Ingrese apellido materno: ");
         String segundoApellido = leerCadenas.nextLine();
 
-        String nombreUsuario = DatosComun.obtenerNombreUsuario();
+        String nombreUsuario = DatosComun.obtenerNombreUsuario(sucursal);
 
         System.out.println("Ingrese su contraseña: ");
         String contra = leerCadenas.nextLine();
@@ -86,9 +86,7 @@ public class Inversionista extends Persona{
                     inverModificado.setSegundoApellido(nuevoApellido2);
                     break;
                 case 4:
-                    System.out.println("Ingrese el nombre de usuario: ");
-                    String newNombreUsuario = leerCadenas.nextLine();
-                    inverModificado.setNombreUsuario(newNombreUsuario);
+                    inverModificado.setNombreUsuario(DatosComun.obtenerNombreUsuario(sucursal));
                     break;
                 case 5:
                     System.out.println("Ingrese la contraseña: ");
@@ -114,7 +112,7 @@ public class Inversionista extends Persona{
             for(Persona persona : Banco.usuarios.get(Rol.Inversionista)){
                 Inversionista inversionista = (Inversionista) persona;
                 if(inversionista.getSucursal() == sucursal){
-                    Persona.mostrarInformacion(Rol.Inversionista, sucursal);
+                    Persona.mostrarInformacion(persona);
                     System.out.printf("Dinero invertido: %s%n", inversionista.dineroInvertido);
                     cont++;
                 }

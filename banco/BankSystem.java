@@ -44,7 +44,6 @@ public class BankSystem {
 
 
     private void iniciarSesionSistema(Sucursal sucursal){
-        System.out.println("BIENVENIDO AL SISTEMA DE LA BIBLIOTECA");
         System.out.println("Inicia sesión para continuar");
 
         System.out.println("Ingresa tu usuario: ");

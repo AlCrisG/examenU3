@@ -18,8 +18,8 @@ public class Banco {
         usuarios.put(Rol.EjecutivoCuenta, new ArrayList<>());
         usuarios.put(Rol.GerenteSucursal, new ArrayList<>());
         usuarios.put(Rol.Inversionista, new ArrayList<>());
-        usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Madero", "kkkk", "01/01/2002", "H", "Morelia","16", "", "1", "1",Rol.GerenteSucursal, Sucursal.Madero));
-        usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Madero", "kkkk", "01/01/2002", "H", "Morelia","16", "", "2", "2",Rol.GerenteSucursal, Sucursal.Acueducto));
+        usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Madero", "KKKK", "01/01/2002", "H", "Morelia","16", "", "1", "1",Rol.GerenteSucursal, Sucursal.Madero));
+        usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Acueducto", "KKKK", "01/01/2002", "H", "Morelia","16", "", "2", "2",Rol.GerenteSucursal, Sucursal.Acueducto));
     }
 
 

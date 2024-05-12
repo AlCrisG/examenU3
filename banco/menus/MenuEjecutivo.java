@@ -38,7 +38,7 @@ public class MenuEjecutivo {
                     break;
 
                 case 2:
-                    System.out.println("Modificar clientes");
+                    Cliente.modificarCliente(sucursal);
                     break;
 
                 case 3:
@@ -46,7 +46,7 @@ public class MenuEjecutivo {
                     break;
 
                 case 4:
-                   System.out.println("Eliminar cliente");
+                    Cliente.eliminarCliente(sucursal);
                     break;
                 case 5:
                     System.out.println("Autorizar tarjetas");

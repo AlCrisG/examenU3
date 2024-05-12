@@ -19,7 +19,7 @@ public class Cliente extends Persona{
     }
 
     public static void agregarCliente(Sucursal sucursal){
-        ArrayList<String> datosComun = DatosComun.obtenerDatosComun();
+        ArrayList<String> datosComun = DatosComun.obtenerDatosComun(sucursal);
 
         Sucursal sucursalRegistro = sucursal;
 
@@ -47,7 +47,7 @@ public class Cliente extends Persona{
             for(Persona persona : Banco.usuarios.get(Rol.Cliente)){
                 Cliente cliente = (Cliente) persona;
                 if(cliente.getSucursal() == sucursal){
-                    Persona.mostrarInformacion(Rol.Cliente, sucursal);
+                    Persona.mostrarInformacion(persona);
                     System.out.printf("Fecha de registro: %s%n", cliente.fechaRegistro.format(formatter));
                     cont++;
                 }
@@ -107,9 +107,7 @@ public class Cliente extends Persona{
                     clienteModificado.setSegundoApellido(nuevoApellido2);
                     break;
                 case 4:
-                    System.out.println("Ingrese el nombre de usuario: ");
-                    String newNombreUsuario = leerCadenas.nextLine();
-                    clienteModificado.setNombreUsuario(newNombreUsuario);
+                    clienteModificado.setNombreUsuario(DatosComun.obtenerNombreUsuario(sucursal));
                     break;
                 case 5:
                     System.out.println("Ingrese la contraseña: ");

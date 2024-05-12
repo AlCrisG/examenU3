@@ -205,26 +205,16 @@ public class MenuGerenteSucursal {
                                         case 1 -> rol = Rol.EjecutivoCuenta;
                                         case 2 -> rol = Rol.GerenteSucursal;
                                     }
-                                    Empleado.mostrarInformacionTodosEmpleados(rol, sucursal);
+                                    Empleado.mostrarInformacionTodos(rol, sucursal);
                                 }
-                            case 2:
+                                break;
 
-                                System.out.println("Ingrese qué empleados quiere consultar");
-                                System.out.println("1.- Gerentes");
-                                System.out.println("2.- Ejecutivos");
-                                System.out.println("3.- Capturistas");
-                                int opcionConsultarEmpleadoXRol = leerNum.nextInt();
-                                switch (opcionConsultarEmpleadoXRol) {
-                                    case 1 -> Empleado.consultarEmpleados(Rol.GerenteSucursal, sucursal);
-                                    case 2 -> Empleado.consultarEmpleados(Rol.EjecutivoCuenta, sucursal);
-                                    case 3 -> Empleado.consultarEmpleados(Rol.Capturista, sucursal);
-                                    default -> System.out.println("Opcion invalida");
-                                }
-                                
+                            case 2:
+                                Empleado.consultarEmpleados(sucursal);
                                 break;
 
                             case 3:
-                                return;
+                                break;
                             
                             default:
                                 System.out.println("Opción no válida.");
@@ -233,11 +223,22 @@ public class MenuGerenteSucursal {
                         break;
 
                         case 3:
-                            Inversionista.mostrarInformacionTodosInversionistas(sucursal);
+                            switch (consultar) {
+                                case 1:
+                                    Inversionista.mostrarInformacionTodosInversionistas(sucursal);
+                                    break;
+
+                                case 2:
+                                    Inversionista.consultarInversionistaPorID(sucursal);
+                                    break;
+
+                                default:
+                                    System.out.println("Opción no válida.");
+                                    break;
+                            }
                             break;
 
                         case 4:
-                            Inversionista.consultarInversionistaPorID(sucursal);
                             break;
 
                         default:

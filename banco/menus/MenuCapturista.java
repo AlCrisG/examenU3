@@ -35,7 +35,7 @@ public class MenuCapturista {
                     break;
 
                 case 2:
-                    System.out.println("Modificar ejecutivos");
+                    Empleado.modificarEmpleado(Rol.EjecutivoCuenta, sucursal);
                     break;
 
                 case 3:
