@@ -13,14 +13,14 @@ public class Tarjeta {
     double saldo;
     LocalDate fechaCreacion, fechaVencimiento, fechaUltimoMovimiento;
 
-    public Tarjeta (Sucursal sucursalRegistro, TipoTarjeta tipo, String clabe, int numeroTarjeta, int cvv, LocalDate fechaVencimiento, int saldo) {
+    public Tarjeta (Sucursal sucursalRegistro, TipoTarjeta tipo) {
         this.sucursalRegistro = sucursalRegistro;
         this.tipo = tipo;    
         this.numeroTarjeta = generarNumeroTarjeta(sucursalRegistro);
         this.clabe = generarClabe(sucursalRegistro, clabe);        
         this.cvv = generarCvv();
         this.fechaVencimiento = LocalDate.now().plusYears(5);
-        this.saldo = saldo;
+        this.saldo = 0;
         this.fechaUltimoMovimiento = null;
         this.fechaCreacion = LocalDate.now();
     }

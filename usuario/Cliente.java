@@ -6,17 +6,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import banco.Banco;
+import banco.Tarjeta;
 import banco.utils.Sucursal;
+import banco.utils.TipoTarjeta;
 import usuario.utils.DatosComun;
 import usuario.utils.Rol;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona{    
+    private static ArrayList<Tarjeta> tarjetas = new ArrayList<>();
     private LocalDate fechaRegistro;
     static Scanner leerCadenas = new Scanner(System.in);
     
     public Cliente(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, String nombreUsuario, String contra, LocalDate fechaRegistro, Sucursal sucursalRegistro){
         super(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, Rol.Cliente, sucursalRegistro);
         this.fechaRegistro = fechaRegistro;
+        generarTarjetaDebito(sucursalRegistro);
+    }
+
+    public static void generarTarjetaDebito(Sucursal sucursal) {
+        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Debito));        
     }
 
     public static void agregarCliente(Sucursal sucursal){
