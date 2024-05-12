@@ -13,6 +13,7 @@ import usuario.utils.Rol;
 public class Cliente extends Persona{
     private LocalDate fechaRegistro;
     static Scanner leerCadenas = new Scanner(System.in);
+    
     public Cliente(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, String nombreUsuario, String contra, LocalDate fechaRegistro, Sucursal sucursalRegistro){
         super(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, Rol.Cliente, sucursalRegistro);
         this.fechaRegistro = fechaRegistro;
@@ -61,6 +62,7 @@ public class Cliente extends Persona{
     }
 
     public static void modificarCliente(Sucursal sucursal) {
+        @SuppressWarnings("resource")
         Scanner leerNumeros = new Scanner(System.in);
     
         System.out.println("Ingrese el ID del Cliente a modificar: ");

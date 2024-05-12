@@ -65,6 +65,7 @@ public class Empleado extends Persona{
     }
 
     public static void modificarEmpleado(Rol rol, Sucursal sucursal) {
+        @SuppressWarnings("resource")
         Scanner leerNumeros = new Scanner(System.in);
     
         System.out.println("Ingrese el ID del Empleado a modificar: ");

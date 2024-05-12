@@ -1,6 +1,8 @@
 package banco.menus;
 import java.util.Scanner;
 import banco.utils.Sucursal;
+import usuario.Inversionista;
+import usuario.utils.UsuarioEnSesion;
 
 public class MenuInversionista {
     
@@ -26,7 +28,8 @@ public class MenuInversionista {
 
             switch(opcion){
                 case 1:
-                    System.out.println("Hacer una inversion");
+                    Inversionista inversionista = (Inversionista) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Inversionista.hacerInversion(inversionista, sucursal);
                     break;
 
                 case 2:
