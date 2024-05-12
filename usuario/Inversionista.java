@@ -1,5 +1,6 @@
 package usuario;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import banco.Banco;
@@ -37,4 +38,93 @@ public class Inversionista extends Persona{
     public long getDineroInvertido(){
         return dineroInvertido;
     }
+
+    public static void modificarInversionista(Sucursal sucursal) {
+        Scanner leerNumeros = new Scanner(System.in);
+    
+        System.out.println("Ingrese el ID del Inversionista a modificar: ");
+        int idInverModif = leerNumeros.nextInt();
+        boolean inverEncontrado = false;
+        Inversionista inverModificado = null;
+    
+        
+        for (Persona usuario : Banco.usuarios.get(Rol.Inversionista)) {
+            
+            if (usuario instanceof Inversionista) {
+                Inversionista inversionista = (Inversionista) usuario;
+                if (inversionista.getId() == idInverModif) {
+                    inverEncontrado = true;
+                    inverModificado = inversionista;
+                    break; 
+                }
+            }
+        }
+    
+        if (inverEncontrado) {
+            System.out.println("Elija la opción que desea modificar: ");
+            System.out.println("1.- Nombre ");
+            System.out.println("2.- Apellido ");
+            System.out.println("3.- Segundo apellido ");
+            System.out.println("4.- Nombre de usuario");
+            System.out.println("5.- Contraseña ");
+            int opcion = leerNumeros.nextInt();
+    
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nombre: ");
+                    String nuevoNombre = leerCadenas.nextLine();
+                    inverModificado.setNombre(nuevoNombre);
+                    break;
+                case 2:
+                    System.out.println("Ingrese el apellido: ");
+                    String nuevoApellido = leerCadenas.nextLine();
+                    inverModificado.setPrimerApellido(nuevoApellido);
+                    break;
+                case 3:
+                    System.out.println("Ingrese el segundo apellido: ");
+                    String nuevoApellido2 = leerCadenas.nextLine();
+                    inverModificado.setSegundoApellido(nuevoApellido2);
+                    break;
+                case 4:
+                    System.out.println("Ingrese el nombre de usuario: ");
+                    String newNombreUsuario = leerCadenas.nextLine();
+                    inverModificado.setNombreUsuario(newNombreUsuario);
+                    break;
+                case 5:
+                    System.out.println("Ingrese la contraseña: ");
+                    String nuevaContra = leerCadenas.nextLine();
+                    inverModificado.setContra(nuevaContra);
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+    
+        } else {
+            System.out.println("No se ha encontrado cliente con ese ID...");
+        }
+    }
+
+    public static void mostrarInformacionTodosInversionistas(Sucursal sucursal){
+        int cont = 0;
+        if(Banco.usuarios.get(Rol.Inversionista).isEmpty()){
+            System.out.println("No se han agregado usuarios de dicho rol.");
+        }
+        else{
+            for(Persona persona : Banco.usuarios.get(Rol.Inversionista)){
+                Inversionista inversionista = (Inversionista) persona;
+                if(inversionista.getSucursal() == sucursal){
+                    Persona.mostrarInformacion(Rol.Inversionista, sucursal);
+                    System.out.printf("Dinero invertido: %s%n", inversionista.dineroInvertido);
+                    cont++;
+                }
+            }
+            if(cont == 0){
+                System.out.println("No se han agregado usuarios de dicho rol.");
+            } else{
+                System.out.println("======================================================");
+            }
+        }
+    }
+
 }

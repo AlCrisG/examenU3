@@ -3,6 +3,7 @@ package usuario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import banco.Banco;
 import banco.utils.Sucursal;
@@ -11,7 +12,7 @@ import usuario.utils.Rol;
 
 public class Cliente extends Persona{
     private LocalDate fechaRegistro;
-
+    static Scanner leerCadenas = new Scanner(System.in);
     public Cliente(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, String nombreUsuario, String contra, LocalDate fechaRegistro, Sucursal sucursalRegistro){
         super(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, Rol.Cliente, sucursalRegistro);
         this.fechaRegistro = fechaRegistro;
@@ -56,6 +57,72 @@ public class Cliente extends Persona{
             } else{
                 System.out.println("======================================================");
             }
+        }
+    }
+
+    public static void modificarCliente(Sucursal sucursal) {
+        Scanner leerNumeros = new Scanner(System.in);
+    
+        System.out.println("Ingrese el ID del Cliente a modificar: ");
+        int idClienteModif = leerNumeros.nextInt();
+        boolean clienteEncontrado = false;
+        Cliente clienteModificado = null;
+    
+        
+        for (Persona usuario : Banco.usuarios.get(Rol.Cliente)) {
+            
+            if (usuario instanceof Cliente) {
+                Cliente cliente = (Cliente) usuario;
+                if (cliente.getId() == idClienteModif) {
+                    clienteEncontrado = true;
+                    clienteModificado = cliente;
+                    break; 
+                }
+            }
+        }
+    
+        if (clienteEncontrado) {
+            System.out.println("Elija la opción que desea modificar: ");
+            System.out.println("1.- Nombre ");
+            System.out.println("2.- Apellido ");
+            System.out.println("3.- Segundo apellido ");
+            System.out.println("4.- Nombre de usuario");
+            System.out.println("5.- Contraseña ");
+            int opcion = leerNumeros.nextInt();
+    
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nombre: ");
+                    String nuevoNombre = leerCadenas.nextLine();
+                    clienteModificado.setNombre(nuevoNombre);
+                    break;
+                case 2:
+                    System.out.println("Ingrese el apellido: ");
+                    String nuevoApellido = leerCadenas.nextLine();
+                    clienteModificado.setPrimerApellido(nuevoApellido);
+                    break;
+                case 3:
+                    System.out.println("Ingrese el segundo apellido: ");
+                    String nuevoApellido2 = leerCadenas.nextLine();
+                    clienteModificado.setSegundoApellido(nuevoApellido2);
+                    break;
+                case 4:
+                    System.out.println("Ingrese el nombre de usuario: ");
+                    String newNombreUsuario = leerCadenas.nextLine();
+                    clienteModificado.setNombreUsuario(newNombreUsuario);
+                    break;
+                case 5:
+                    System.out.println("Ingrese la contraseña: ");
+                    String nuevaContra = leerCadenas.nextLine();
+                    clienteModificado.setContra(nuevaContra);
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+    
+        } else {
+            System.out.println("No se ha encontrado cliente con ese ID...");
         }
     }
 }

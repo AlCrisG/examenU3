@@ -32,7 +32,7 @@ public class MenuGerenteSucursal {
             System.out.println("+------------------------+");
             System.out.print("Elige una opción: ");
             opcion = leerNum.nextInt();
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
             switch(opcion){
                 case 1:
                     System.out.println("+-------------------------+");
@@ -86,7 +86,7 @@ public class MenuGerenteSucursal {
                             break;
                     }
                     break;
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 case 2:
                     System.out.println("+-------------------------+");
                     System.out.println("|     MENU MODIFICAR      |");
@@ -103,7 +103,7 @@ public class MenuGerenteSucursal {
 
                     switch(opcionModificar){
                         case 1:
-                            System.out.println("Modificar cliente");
+                            Cliente.modificarCliente(sucursal);
                             break;
 
                         case 2:
@@ -128,7 +128,7 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 3:
-                            System.out.println("Modificar inversionista");
+                            Inversionista.modificarInversionista(sucursal);
                             break;
 
                         case 4:
@@ -233,10 +233,11 @@ public class MenuGerenteSucursal {
                         break;
 
                         case 3:
-                            System.out.println("Consultar inversionistas");
+                            Inversionista.mostrarInformacionTodosInversionistas(sucursal);
                             break;
 
                         case 4:
+                            System.out.println("Mostrar inversionista por id");
                             break;
 
                         default:
