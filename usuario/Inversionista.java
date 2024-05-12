@@ -127,4 +127,51 @@ public class Inversionista extends Persona{
         }
     }
 
+    public static void consultarInversionistaPorID( Sucursal sucursal) {
+        @SuppressWarnings("resource")
+        Scanner leerNumeros = new Scanner(System.in);
+
+        System.out.println("Ingrese el ID del inversionista a consultar: ");
+        int id = leerNumeros.nextInt();
+
+        for (Persona usuario : Banco.usuarios.get(Rol.Inversionista)) {
+            if (usuario instanceof Inversionista && usuario.getId() == id && usuario.getSucursal() == sucursal) {
+                Inversionista inversionista = (Inversionista) usuario;
+                System.out.println("ID: " + inversionista.getId());
+                System.out.println("Nombre: " + inversionista.getNombre());
+                System.out.println("Apellido: " + inversionista.getPrimerApellido());
+                System.out.println("Ciudad: " + inversionista.getCiudad());
+                System.out.println("Dinero invertido: "+ inversionista.getDineroInvertido());
+                return; 
+            }
+        }
+        System.out.println("No se encontró ningún Inversionista con ese ID en la sucursal.");
+    }
+
+
+    public static void eliminarInversionista(Sucursal sucursal){
+        System.out.println("Ingrese el ID del inversionista para eliminar: ");
+        int idInverEliminar = leerCadenas.nextInt();
+        Boolean respuestaCorrecta = false;
+        Inversionista inverEncontrado=null;
+
+        for (Persona usuario : Banco.usuarios.get(Rol.Cliente)) {
+            Inversionista inversionista = (Inversionista) usuario;
+            if (usuario instanceof Inversionista && inversionista.getId() == idInverEliminar && usuario.getSucursal() == sucursal) {
+                respuestaCorrecta = true;
+                inverEncontrado=inversionista;
+                
+            }
+        }
+
+        if (respuestaCorrecta) {
+            System.out.println("\nInversionista eliminado.\n");
+                Banco.usuarios.get(Rol.Cliente).remove(inverEncontrado);
+        }else{
+            System.out.println("No pudo eliminarse al inversionista.");
+        }
+        
+        
+    }
+
 }

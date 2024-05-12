@@ -125,4 +125,51 @@ public class Cliente extends Persona{
             System.out.println("No se ha encontrado cliente con ese ID...");
         }
     }
+
+    public static void consultarClientePorID( Sucursal sucursal) {
+        @SuppressWarnings("resource")
+        Scanner leerNumeros = new Scanner(System.in);
+
+        System.out.println("Ingrese el ID del cliente a consultar: ");
+        int id = leerNumeros.nextInt();
+
+        for (Persona usuario : Banco.usuarios.get(Rol.Cliente)) {
+            if (usuario instanceof Cliente && usuario.getId() == id && usuario.getSucursal() == sucursal) {
+                Cliente cliente = (Cliente) usuario;
+                System.out.println("ID: " + cliente.getId());
+                System.out.println("Nombre: " + cliente.getNombre());
+                System.out.println("Apellido: " + cliente.getPrimerApellido());
+                System.out.println("Ciudad: " + cliente.getCiudad());
+                System.out.println("Fecha de registro: "+ cliente.fechaRegistro);
+                return; 
+            }
+        }
+        System.out.println("No se encontró ningún cliente con ese ID en la sucursal.");
+    }
+
+    public static void eliminarCliente(Sucursal sucursal){
+        System.out.println("Ingrese el ID del usuario para eliminar: ");
+        int idClienteEliminar = leerCadenas.nextInt();
+        Boolean respuestaCorrecta = false;
+        Cliente clienteEncontrado=null;
+
+        for (Persona usuario : Banco.usuarios.get(Rol.Cliente)) {
+            Cliente cliente = (Cliente) usuario;
+            if (usuario instanceof Cliente && cliente.getId() == idClienteEliminar && usuario.getSucursal() == sucursal) {
+                respuestaCorrecta = true;
+                clienteEncontrado=cliente;
+                
+            }
+        }
+
+        if (respuestaCorrecta) {
+            System.out.println("\nCliente eliminado.\n");
+                Banco.usuarios.get(Rol.Cliente).remove(clienteEncontrado);
+        }else{
+            System.out.println("No pudo eliminarse al cliente.");
+        }
+        
+        
+    }
+
 }

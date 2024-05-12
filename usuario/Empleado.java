@@ -155,8 +155,6 @@ public class Empleado extends Persona{
     }
 }
 
-
-
     public static void consultarEmpleadoPorID(int id, Rol rol, Sucursal sucursal) {
         for (Persona usuario : Banco.usuarios.get(rol)) {
             if (usuario instanceof Empleado && usuario.getId() == id && usuario.getSucursal() == sucursal) {
@@ -230,7 +228,49 @@ public class Empleado extends Persona{
         }
     }
 
+    public static void eliminarEmpleado(Sucursal sucursal){
+        System.out.println("Ingrese el ID del empleado para eliminar: ");
+        int idEmpleadoEliminar = leerCadenas.nextInt();
+        Boolean respuestaCorrecta = false;
+        Empleado empleadoEncontrado=null;
 
+        for (Persona usuario : Banco.usuarios.get(Rol.Capturista)) {
+            Empleado empleado = (Empleado) usuario;
+            if (usuario instanceof Empleado && empleado.getId() == idEmpleadoEliminar && usuario.getSucursal() == sucursal) {
+                respuestaCorrecta = true;
+                empleadoEncontrado=empleado;
+                
+            }
+        }
+
+        for (Persona usuario : Banco.usuarios.get(Rol.EjecutivoCuenta)) {
+            Empleado empleado = (Empleado) usuario;
+            if (usuario instanceof Empleado && empleado.getId() == idEmpleadoEliminar && usuario.getSucursal() == sucursal) {
+                respuestaCorrecta = true;
+                empleadoEncontrado=empleado;
+                
+            }
+        }
+
+        for (Persona usuario : Banco.usuarios.get(Rol.GerenteSucursal)) {
+            Empleado empleado = (Empleado) usuario;
+            if (usuario instanceof Empleado && empleado.getId() == idEmpleadoEliminar && usuario.getSucursal() == sucursal) {
+                respuestaCorrecta = true;
+                empleadoEncontrado=empleado;
+                
+            }
+        }
+
+
+        if (respuestaCorrecta) {
+            System.out.println("\nEmpleado eliminado.\n");
+                Banco.usuarios.get(Rol.Cliente).remove(empleadoEncontrado);
+        }else{
+            System.out.println("No pudo eliminarse al empleado.");
+        }
+        
+        
+    }
     
 }
     

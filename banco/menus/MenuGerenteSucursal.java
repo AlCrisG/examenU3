@@ -183,7 +183,7 @@ public class MenuGerenteSucursal {
                                     break;
 
                                 case 2:
-                                    System.out.println("Método buscar por ID");
+                                    Cliente.consultarClientePorID(sucursal);
                                     break;
 
                                 case 3:
@@ -237,7 +237,7 @@ public class MenuGerenteSucursal {
                             break;
 
                         case 4:
-                            System.out.println("Mostrar inversionista por id");
+                            Inversionista.consultarInversionistaPorID(sucursal);
                             break;
 
                         default:
@@ -262,15 +262,15 @@ public class MenuGerenteSucursal {
 
                     switch(opcionEliminar){
                         case 1:
-                            System.out.println("Eliminar clientes");
+                            Cliente.eliminarCliente(sucursal);
                             break;
 
                         case 2:
-                            System.out.println("Eliminar empleado");
+                            Empleado.eliminarEmpleado(sucursal);
                             break;
 
                         case 3:
-                            System.out.println("Eliminar inversionistas");
+                            Inversionista.eliminarInversionista(sucursal);
                             break;
                             
                         case 4:
