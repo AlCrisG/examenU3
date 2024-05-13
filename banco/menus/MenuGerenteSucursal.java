@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import banco.Banco;
 import banco.Inversion;
+import banco.Tarjeta;
+import banco.utils.EstatusSolicitud;
 import banco.utils.Sucursal;
 import usuario.Cliente;
 import usuario.Empleado;
@@ -31,6 +33,7 @@ public class MenuGerenteSucursal {
             System.out.println("|   2    | Modificar     |");
             System.out.println("|   3    | Consultar     |");
             System.out.println("|   4    | Eliminar      |");
+            System.out.println("|   6    | Tarjetas      |");
             System.out.println("|   5    | Cerrar sesión |");
             System.out.println("+------------------------+");
             System.out.print("Elige una opción: ");
@@ -341,6 +344,50 @@ public class MenuGerenteSucursal {
                     break;
 
                 case 5:
+                    System.out.println("+--------------------------------+");
+                    System.out.println("|          MENU TARJETAS         |");
+                    System.out.println("+--------------------------------+");
+                    System.out.println("|   OPCION | DESCRIPCION         |");
+                    System.out.println("+--------------------------------+");
+                    System.out.println("|     1    | Ver solicitudes     |");
+                    System.out.println("|     2    | Autorizar tarjetas  |");
+                    System.out.println("|     3    | Regresar            |");
+                    System.out.println("+--------------------------------+");
+                    System.out.print("Elige una opción: ");
+                    int opcionTarjetas = leerNum.nextInt();
+
+                    switch(opcionTarjetas){
+                        case 1:
+                            System.out.println("Seleccione una opción:");
+                            System.out.println("1. Aprobadas");
+                            System.out.println("2. En Proceso");
+                            System.out.println("3. Rechazada");
+                            System.out.println("Seleccione una opción: ");
+                            int opcionSolicitud = leerNum.nextInt();
+
+                            switch(opcionSolicitud){
+                                case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada);
+                                case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso);
+                                case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada);
+                                default -> System.out.println("Opción no válida.");
+                            }
+                            break;
+
+                        case 2:
+                            Tarjeta.cambiarEstatusSolicitud();
+                            break;
+
+                        case 3:
+                            break;
+
+                        default:
+                            System.out.println("Opción no válida.");
+                            break;
+                    }
+
+                    break;
+
+                case 6:
                     System.out.println("Cerrando sesión...");
                     return;
 

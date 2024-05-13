@@ -1,6 +1,5 @@
 package banco;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -787,4 +786,7 @@ public class Tarjeta {
         return titular;
     }
 
+    public Sucursal getSucursal(){
+        return sucursalRegistro;
+    }
 }
