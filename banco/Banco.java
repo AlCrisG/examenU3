@@ -12,6 +12,7 @@ import usuario.Persona;
 public class Banco {
     public static HashMap<Rol, ArrayList<Persona>> usuarios = new HashMap<>();
     public static ArrayList<Inversion> inversiones = new ArrayList<>();
+    public static ArrayList<Tarjeta> tarjetas = new ArrayList<>();
     private static String contraInverMadero = "123", contraInverAcueducto = "123";
 
     public Banco(){

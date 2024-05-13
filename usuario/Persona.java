@@ -232,4 +232,8 @@ public class Persona {
         System.out.printf("Ciudad: %s%n", persona.ciudad);
         System.out.printf("Estado: %s%n", persona.estado);
     }
+
+    public String getNombreCompleto(){
+        return nombre + " " + primerApellido + " " + segundoApellido;
+    }
 }

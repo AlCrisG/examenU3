@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import banco.Banco;
+import banco.Tarjeta;
 import banco.utils.Sucursal;
 import usuario.utils.DatosComun;
 import usuario.utils.Rol;
@@ -35,7 +36,9 @@ public class Cliente extends Persona{
         String nombreUsuario = datosComun.get(8);
         String contra = datosComun.get(9);
 
-        Banco.usuarios.get(Rol.Cliente).add(new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro));
+        Cliente cliente = new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro);
+        Banco.usuarios.get(Rol.Cliente).add(cliente);
+        Tarjeta.generarTarjetaDebito(cliente);
     }
 
     public static void mostrarInformacionTodosClientes(Sucursal sucursal){

@@ -2,6 +2,8 @@ package banco.menus;
 
 import java.util.Scanner;
 
+import banco.Tarjeta;
+import banco.utils.EstatusSolicitud;
 import banco.utils.Sucursal;
 import usuario.Cliente;
 
@@ -26,8 +28,9 @@ public class MenuEjecutivo {
             System.out.println("|   2    | Modificar clientes    |");
             System.out.println("|   3    | Consultar clientes    |");
             System.out.println("|   4    | Eliminar  clientes    |");
-            System.out.println("|   5    | Autorizar tarjetas    |");
-            System.out.println("|   6    | Cerrar sesión         |");
+            System.out.println("|   5    | Ver solicitudes       |");
+            System.out.println("|   6    | Autorizar tarjetas    |");
+            System.out.println("|   7    | Cerrar sesión         |");
             System.out.println("+--------------------------------+");
             System.out.print("Elige una opción: ");
             opcion = leerNum.nextInt();
@@ -49,9 +52,24 @@ public class MenuEjecutivo {
                     Cliente.eliminarCliente(sucursal);
                     break;
                 case 5:
-                    System.out.println("Autorizar tarjetas");
+                    System.out.println("Seleccione una opción:");
+                    System.out.println("1. Aprobadas");
+                    System.out.println("2. En Proceso");
+                    System.out.println("3. Rechazada");
+                    System.out.println("Seleccione una opción: ");
+                    int opcionSolicitud = leerNum.nextInt();
+
+                    switch(opcionSolicitud){
+                        case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada);
+                        case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso);
+                        case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada);
+                        default -> System.out.println("Opción no válida.");
+                    }
                     break;
                 case 6:
+                    Tarjeta.cambiarEstatusSolicitud();
+                    break;
+                case 7:
                     System.out.println("Cerrando sesión...");
                     return;
 
