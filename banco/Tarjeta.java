@@ -69,7 +69,6 @@ public class Tarjeta {
         } else {
             numeroTarjeta = "5627" + numeroTarjeta;
         }
-        System.out.println(numeroTarjeta);
         return numeroTarjeta;
     }
 
