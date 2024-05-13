@@ -9,6 +9,7 @@ import banco.Banco;
 import banco.Tarjeta;
 import banco.utils.Sucursal;
 import banco.utils.TipoTarjeta;
+import banco.utils.TipoTarjetaCredito;
 import usuario.utils.DatosComun;
 import usuario.utils.Rol;
 
@@ -21,10 +22,6 @@ public class Cliente extends Persona{
         super(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, Rol.Cliente, sucursalRegistro);
         this.fechaRegistro = fechaRegistro;
         generarTarjetaDebito(sucursalRegistro);
-    }
-
-    public static void generarTarjetaDebito(Sucursal sucursal) {
-        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Debito));        
     }
 
     public static void agregarCliente(Sucursal sucursal){
@@ -45,6 +42,144 @@ public class Cliente extends Persona{
 
         Banco.usuarios.get(Rol.Cliente).add(new Cliente(nombre, primerApellido, segundoApellido, fecha, genero, ciudad, estado, direccion, nombreUsuario, contra, LocalDate.now(), sucursalRegistro));
     }
+
+    public static void generarTarjetaDebito(Sucursal sucursal) {
+        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Debito));        
+    }
+
+    public static void generarTarjetaCredito(Sucursal sucursal, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
+        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Credito, tipoCredito, creditoMaximo));        
+    }    
+
+    public static void listarTarjetas() {
+        @SuppressWarnings("resource")
+        Scanner leer = new Scanner(System.in);
+        int i, opcion;
+
+        do {
+            System.out.println("|   MENU TARJETAS   |");
+            System.out.println("+------------------------------------------+");
+            System.out.println("| OPCIÓN |              TARJETA            |");
+            System.out.println("+------------------------------------------+");
+            System.out.println("|   1    | Tarjeta - Débito                |");
+            for(i=1; i<tarjetas.size(); i++) {
+                System.out.println("|   " + i + "   | Tarjeta - Crédito - " + tarjetas.get(i).getTipoTarjetaCredito() + "  |");
+            }
+            System.out.println("|   0    | Volver                          |");
+            System.out.println("+------------------------------------------+");
+            System.out.print("Elige una opción: ");
+            opcion = leer.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+        } while (opcion!=0);      
+    }
+
+    public static void menuTarjeta(int i) {
+        @SuppressWarnings("resource")
+        Scanner leer = new Scanner(System.in);
+        int opcion;
+
+        if(tarjetas.get(i).getTipoTarjeta() == TipoTarjeta.Credito) {
+            do {
+                System.out.println("|  MENU TARJETA CRÉDITO " + tarjetas.get(i).getTipoTarjetaCredito() +" |");    
+                System.out.println("+------------------------------------------+");
+                System.out.println("| OPCIÓN |           DESCRIPCIÓN           |");
+                System.out.println("+------------------------------------------+");
+                System.out.println("|   1    | Ver datos de la tarjeta         |");                        
+                System.out.println("|   2    | Realizar pago                   |");
+                System.out.println("|   3    | Pagar tarjeta                   |");
+                System.out.println("|   4    | Volver                          |");
+                System.out.println("+------------------------------------------+");
+                System.out.print("Elige una opción: ");
+                opcion = leer.nextInt();
+
+                switch (opcion) {
+                    case 1:
+                        mostrarInformacionTarjetaCredito(i);                    
+                        break;        
+                    case 2:
+                        tarjetas.get(i).realizarPagoCredito();                    
+                        break;        
+                    case 3:
+                        tarjetas.get(i).pagarTarjetaCredito();                                                            
+                        break;        
+                    default:
+                        System.out.println("Opción inválida.");
+                        break;
+                }
+            } while (opcion!=4);
+            
+        } else {
+            do {
+                System.out.println("|  MENU TARJETA DÉBITO |");    
+                System.out.println("+------------------------------------------+");
+                System.out.println("| OPCIÓN |           DESCRIPCIÓN           |");
+                System.out.println("+------------------------------------------+");
+                System.out.println("|   1    | Ver datos de la tarjeta         |");
+                System.out.println("|   2    | Realizar depósito               |");
+                System.out.println("|   3    | Realizar retiro                 |");
+                System.out.println("|   4    | Realizar pago                   |");
+                System.out.println("|   5    | Volver                          |");
+                System.out.println("+------------------------------------------+");
+                System.out.print("Elige una opción: ");
+                opcion = leer.nextInt();
+
+                switch (opcion) {
+                    case 1:
+                        mostrarInformacionTarjetaCredito(i);                    
+                        break;        
+                    case 2:
+                        tarjetas.get(i).depositarDinero();;                    
+                        break;        
+                    case 3:
+                        tarjetas.get(i).retirarDinero();                                                            
+                        break;        
+                    case 4:
+                        tarjetas.get(i).realizarPagoDebito();                                                            
+                        break;        
+                    default:
+                        System.out.println("Opción inválida.");
+                        break;
+                }
+
+            } while(opcion!=5);
+        }        
+    }
+
+    public static void mostrarInformacionTarjetaDebito(int i) {
+        DateTimeFormatter vencimiento = DateTimeFormatter.ofPattern("MM/yyyy");
+        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println("======================================================");
+        System.out.printf("Número de tarjeta: %s%n", tarjetas.get(i).getNumeroTarjeta());
+        System.out.printf("Clabe interbancaria: %s%n", tarjetas.get(i).getClabe());
+        System.out.printf("CVV: %s%n", tarjetas.get(i).getCvv());
+        System.out.printf("Fecha de vencimiento: %s%n", tarjetas.get(i).getFechaVencimiento().format(vencimiento));        
+        System.out.printf("Saldo: %d%n", tarjetas.get(i).getSaldo());
+        System.out.printf("Fecha del último movimiento: %s%n", tarjetas.get(i).getFechaUltimoMovimiento().format(movimiento));
+        System.out.printf("Fecha de creación: %s%n", tarjetas.get(i).getFechaCreacion().format(movimiento));
+    }
+
+    public static void mostrarInformacionTarjetaCredito(int i) {
+        DateTimeFormatter vencimiento = DateTimeFormatter.ofPattern("MM/yyyy");
+        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println("======================================================");
+        System.out.printf("Tipo de crédito: %s%n", tarjetas.get(i).getTipoTarjetaCredito());
+        System.out.printf("Número de tarjeta: %s%n", tarjetas.get(i).getNumeroTarjeta());
+        System.out.printf("Clabe interbancaria: %s%n", tarjetas.get(i).getClabe());
+        System.out.printf("CVV: %s%n", tarjetas.get(i).getCvv());
+        System.out.printf("Fecha de vencimiento: %s%n", tarjetas.get(i).getFechaVencimiento().format(vencimiento));        
+        System.out.printf("Crédito: %d%n", tarjetas.get(i).getCreditoMaximo());
+        System.out.printf("Fecha del último movimiento: %s%n", tarjetas.get(i).getFechaUltimoMovimiento().format(movimiento));
+        System.out.printf("Fecha de creación: %s%n", tarjetas.get(i).getFechaCreacion().format(movimiento));
+    }
+
 
     public static void mostrarInformacionTodosClientes(Sucursal sucursal){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -165,8 +300,7 @@ public class Cliente extends Persona{
             Cliente cliente = (Cliente) usuario;
             if (usuario instanceof Cliente && cliente.getId() == idClienteEliminar && usuario.getSucursal() == sucursal) {
                 respuestaCorrecta = true;
-                clienteEncontrado=cliente;
-                
+                clienteEncontrado=cliente;                
             }
         }
 
@@ -176,8 +310,7 @@ public class Cliente extends Persona{
         }else{
             System.out.println("No pudo eliminarse al cliente.");
         }
-        
-        
-    }
+                
+    }    
 
 }
