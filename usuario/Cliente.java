@@ -7,15 +7,18 @@ import java.util.Scanner;
 
 import banco.Banco;
 import banco.Tarjeta;
+import banco.utils.EstatusSolicitud;
 import banco.utils.Sucursal;
 import banco.utils.TipoTarjeta;
 import banco.utils.TipoTarjetaCredito;
 import usuario.utils.DatosComun;
 import usuario.utils.Rol;
+import usuario.utils.UsuarioEnSesion;
 
 public class Cliente extends Persona{    
     private static ArrayList<Tarjeta> tarjetas = new ArrayList<>();
     private LocalDate fechaRegistro;
+    private boolean tieneSolicitudes = false;
     static Scanner leerCadenas = new Scanner(System.in);
     
     public Cliente(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, String nombreUsuario, String contra, LocalDate fechaRegistro, Sucursal sucursalRegistro){
@@ -44,12 +47,19 @@ public class Cliente extends Persona{
     }
 
     public static void generarTarjetaDebito(Sucursal sucursal) {
-        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Debito));        
+        Cliente cliente = (Cliente) UsuarioEnSesion.getInstancia().getUsuarioActual();
+        tarjetas.add(new Tarjeta(cliente, sucursal, TipoTarjeta.Debito));        
     }
 
-    public static void generarTarjetaCredito(Sucursal sucursal, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
-        tarjetas.add(new Tarjeta(sucursal, TipoTarjeta.Credito, tipoCredito, creditoMaximo));        
-    }    
+    public static void generarTarjetaCredito(Cliente cliente, Sucursal sucursal, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
+        tarjetas.add(new Tarjeta(cliente, sucursal, TipoTarjeta.Credito, tipoCredito, creditoMaximo));        
+    }
+    
+    public ArrayList<Tarjeta> obtenerTarjetasCredito(){
+        ArrayList<Tarjeta> tarjetasCredito = tarjetas;
+        tarjetasCredito.remove(0);
+        return tarjetasCredito;
+    }
 
     public static void listarTarjetas() {
         @SuppressWarnings("resource")
@@ -63,7 +73,7 @@ public class Cliente extends Persona{
             System.out.println("+------------------------------------------+");
             System.out.println("|   1    | Tarjeta - Débito                |");
             for(i=1; i<tarjetas.size(); i++) {
-                System.out.println("|   " + i + "   | Tarjeta - Crédito - " + tarjetas.get(i).getTipoTarjetaCredito() + "  |");
+                System.out.println("|   " + (i+1) + "   | Tarjeta - Crédito - " + tarjetas.get(i).getTipoTarjetaCredito() + "  |");
             }
             System.out.println("|   0    | Volver                          |");
             System.out.println("+------------------------------------------+");
@@ -108,7 +118,8 @@ public class Cliente extends Persona{
                         tarjetas.get(i).realizarPagoCredito();                    
                         break;        
                     case 3:
-                        tarjetas.get(i).pagarTarjetaCredito();                                                            
+                        Cliente cliente = (Cliente) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                        tarjetas.get(i).pagarTarjetaCredito(cliente);                                                            
                         break;        
                     default:
                         System.out.println("Opción inválida.");
@@ -313,4 +324,19 @@ public class Cliente extends Persona{
                 
     }    
 
+    public double getSaldoTarjetaDebito(){
+        return tarjetas.get(0).getSaldo();
+    }
+
+    public void setSaldoTarjetaDebito(double saldoTarjetaDebito){
+        tarjetas.get(0).setSaldo(saldoTarjetaDebito);
+    }
+
+    public boolean tieneSolicitudes(){
+        return tieneSolicitudes;
+    }
+
+    public void setTieneSolicitudes(boolean tieneSolicitudes){
+        this.tieneSolicitudes = tieneSolicitudes;
+    }
 }

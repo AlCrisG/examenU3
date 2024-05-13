@@ -5,6 +5,7 @@ import java.util.Scanner;
 import banco.Tarjeta;
 import banco.utils.Sucursal;
 import usuario.Cliente;
+import usuario.utils.UsuarioEnSesion;
 
 public class MenuCliente {
     
@@ -35,7 +36,13 @@ public class MenuCliente {
                     break;
 
                 case 2:
-                    System.out.println("Mostrar las tarjetas del cliente");
+                    Cliente cliente = (Cliente) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    if(cliente.tieneSolicitudes()){
+                        System.out.println("Ya tiene una solicitud de tarjeta de crédito en proceso.");
+                    }
+                    else{
+                        Tarjeta.solicitarTarjeta(cliente);
+                    }
                     break;
 
                 case 3:

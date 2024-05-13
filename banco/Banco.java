@@ -2,16 +2,19 @@ package banco;
 
 import java.util.HashMap;
 
+import banco.utils.EstatusSolicitud;
 import banco.utils.Sucursal;
 
 import java.util.ArrayList;
 
 import usuario.utils.Rol;
+import usuario.Cliente;
 import usuario.Persona;
 
 public class Banco {
     public static HashMap<Rol, ArrayList<Persona>> usuarios = new HashMap<>();
     public static ArrayList<Inversion> inversiones = new ArrayList<>();
+    public static HashMap<EstatusSolicitud, ArrayList<Tarjeta>> solicitudes = new HashMap<>();
     private static String contraInverMadero = "123", contraInverAcueducto = "123";
 
     public Banco(){
@@ -20,6 +23,9 @@ public class Banco {
         usuarios.put(Rol.EjecutivoCuenta, new ArrayList<>());
         usuarios.put(Rol.GerenteSucursal, new ArrayList<>());
         usuarios.put(Rol.Inversionista, new ArrayList<>());
+        solicitudes.put(EstatusSolicitud.EnProceso, new ArrayList<>());
+        solicitudes.put(EstatusSolicitud.Aprobada, new ArrayList<>());
+        solicitudes.put(EstatusSolicitud.Rechazada, new ArrayList<>());
         usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Madero", "KKKK", "01/01/2002", "H", "Morelia","16", "", "1", "1",Rol.GerenteSucursal, Sucursal.Madero));
         usuarios.get(Rol.GerenteSucursal).add(new Persona("Gerente", "Acueducto", "KKKK", "01/01/2002", "H", "Morelia","16", "", "2", "2",Rol.GerenteSucursal, Sucursal.Acueducto));
     }

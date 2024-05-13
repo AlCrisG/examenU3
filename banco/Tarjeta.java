@@ -8,8 +8,10 @@ import banco.utils.EstatusSolicitud;
 import banco.utils.Sucursal;
 import banco.utils.TipoTarjeta;
 import banco.utils.TipoTarjetaCredito;
+import usuario.Cliente;
 
 public class Tarjeta {
+    private Cliente titular;
     private String numeroTarjeta, clabe, cvv;
     private Sucursal sucursalRegistro;
     private TipoTarjeta tipo;
@@ -19,7 +21,8 @@ public class Tarjeta {
     private LocalDate fechaVencimiento, fechaUltimoMovimiento;
     private final LocalDate fechaCreacion;
 
-    public Tarjeta (Sucursal sucursalRegistro, TipoTarjeta tipo) {
+    public Tarjeta (Cliente titular, Sucursal sucursalRegistro, TipoTarjeta tipo) {
+        this.titular = titular;
         this.sucursalRegistro = sucursalRegistro;
         this.tipo = tipo;    
         this.numeroTarjeta = generarNumeroTarjeta(sucursalRegistro);
@@ -30,7 +33,8 @@ public class Tarjeta {
         this.fechaCreacion = LocalDate.now();
     }
 
-    public Tarjeta (Sucursal sucursalRegistro, TipoTarjeta tipo, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
+    public Tarjeta (Cliente titular, Sucursal sucursalRegistro, TipoTarjeta tipo, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
+        this.titular = titular;
         this.sucursalRegistro = sucursalRegistro;
         this.tipo = tipo;
         this.tipoCredito = tipoCredito;
@@ -38,8 +42,8 @@ public class Tarjeta {
         this.clabe = generarClabe(sucursalRegistro, clabe);        
         this.cvv = generarCvv();
         this.fechaVencimiento = LocalDate.now().plusYears(5);
-        this.saldo = 0;        
         this.fechaCreacion = LocalDate.now();
+        this.estatus = EstatusSolicitud.EnProceso;
     }
 
     public static String generarNumeroTarjeta(Sucursal sucursal) {
@@ -88,25 +92,85 @@ public class Tarjeta {
         return cvv;
     }
 
-    public void solicitarTarjeta() {
+    @SuppressWarnings("static-access")
+    public static void solicitarTarjeta(Cliente cliente) {
         @SuppressWarnings("resource")
         Scanner leer = new Scanner(System.in);
-        int opcion;  
+        int opcion = 0, cont = 1;
+        if(cliente.getSaldoTarjetaDebito() <= 50000){
+            System.out.println("Aún no puede solicitar ninguna tarjeta de crédito");
+        }
+        if(cliente.getSaldoTarjetaDebito() > 50000){
+            System.out.println("+-------------------------+");
+            System.out.println("|    SOLICITAR TARJETA    |");
+            System.out.println("+-------------------------+");
+            System.out.println("|   1   | Simplicity      |");
+            cont++;
+        }
+        if(cliente.getSaldoTarjetaDebito() > 100000){
+            System.out.println("|   2   | Platino         |");
+            cont++;
+        }
+        if(cliente.getSaldoTarjetaDebito() > 200000){
+            System.out.println("|   3   | Oro             |");
+            cont++;
+        }
+        if(cont != 0){
+            System.out.printf("|   %s   | Regresar        |%n", cont);
+            System.out.println("+-------------------------+");
+            System.out.println("Ingrese una opcion: ");
+            opcion = leer.nextInt();
         
-        System.out.println("¿Qué categoría de tarjeta desea solicitar?");
-        System.out.println("1. Simplicity \n 2. Platino \n 3. Oro");
-        opcion = leer.nextInt();
 
-        switch (opcion) {
-            case 1:
-                if(this.saldo<50000) {
-                    System.out.println("Necesitas un saldo mínimo de $50,000 MXN para solicitar esta tarjeta.");
-                } else {
+            switch (cont) {
+                case 2:
+                    switch(opcion){
+                        case 1:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Simplicity, 60000);
+                            break;
 
-                }
-                break;        
-            default:
-                break;
+                        case 2:
+                            break;
+                    }
+                    break;
+
+                case 3:
+                    switch(opcion){
+                        case 1:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Simplicity, 60000);
+                            break;
+
+                        case 2:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Platino, 150000);
+                            break;
+
+                        case 3:
+                            break;
+                    }
+                    break;
+
+                case 4:
+                    switch(opcion){
+                        case 1:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Simplicity, 60000);
+                            break;
+
+                        case 2:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Platino, 150000);
+                            break;
+
+                        case 3:
+                            cliente.generarTarjetaCredito(cliente, cliente.getSucursal(), TipoTarjetaCredito.Oro, 400000);
+                            break;
+
+                        case 4:
+                            break;
+                    }
+                    break;
+            
+                default:
+                    break;
+            }
         }
     }
 
@@ -126,7 +190,7 @@ public class Tarjeta {
         }    
     }
 
-    public void pagarTarjetaCredito() {
+    public void pagarTarjetaCredito(Cliente cliente) {
         @SuppressWarnings("resource")
         Scanner leer = new Scanner(System.in);
         int opcion;
@@ -148,9 +212,9 @@ public class Tarjeta {
                 System.out.print("Ingrese la cantidad a pagar: ");
                 pago= leer.nextDouble();
 
-                if(pago<saldo) {                
+                if(pago<=saldo) {                
                     this.creditoMaximo = creditoMaximo + pago;
-                    this.saldo = saldo - pago;
+                    cliente.setSaldoTarjetaDebito(cliente.getSaldoTarjetaDebito() - pago);
                     this.fechaUltimoMovimiento = LocalDate.now();
                     System.out.println("Pago de tarjeta realizado con éxito");
                 } else {
@@ -253,5 +317,13 @@ public class Tarjeta {
 
     public void setTipoTarjetaCredito(TipoTarjetaCredito tipoCredito) {
         this.tipoCredito = tipoCredito;
+    }
+
+    public void setSaldo(double saldo){
+        this.saldo = saldo;
+    }
+
+    public Cliente getTitular(){
+        return titular;
     }
 }
