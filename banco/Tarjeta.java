@@ -655,11 +655,11 @@ public class Tarjeta {
         }
     }
 
-    public static boolean verSolicitudesTodos(EstatusSolicitud estatusSolicitud){
+    public static boolean verSolicitudesTodos(EstatusSolicitud estatusSolicitud, Sucursal sucursal){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         int cont = 0;
         for(Tarjeta tarjeta : Banco.tarjetas){
-            if(tarjeta.estatus == estatusSolicitud && tarjeta.tipo == TipoTarjeta.Credito){
+            if(tarjeta.estatus == estatusSolicitud && tarjeta.tipo == TipoTarjeta.Credito && tarjeta.getSucursal() == sucursal){
                 System.out.println("=====================================");
                 System.out.println("No. de Solicitud: " + tarjeta.idSolicitud);
                 System.out.println("Solicitante: " + tarjeta.getTitular().getNombreCompleto());
@@ -690,14 +690,14 @@ public class Tarjeta {
         }
     }
 
-    public static void cambiarEstatusSolicitud(){
-        if(verSolicitudesTodos(EstatusSolicitud.EnProceso)){
+    public static void cambiarEstatusSolicitud(Sucursal sucursal){
+        if(verSolicitudesTodos(EstatusSolicitud.EnProceso, sucursal)){
             System.out.println("SELECCIONE UN NÚMERO DE SOLICITUD: ");
             int numSolicitud = leerNumeros.nextInt();
             boolean encontrado = false;
 
             for(Tarjeta tarjeta : Banco.tarjetas){
-                if(tarjeta.estatus == EstatusSolicitud.EnProceso && tarjeta.idSolicitud == numSolicitud){
+                if(tarjeta.estatus == EstatusSolicitud.EnProceso && tarjeta.idSolicitud == numSolicitud && tarjeta.getSucursal() == sucursal){
                     encontrado = true;
                     System.out.println("Seleccione una opción");
                     System.out.println("1. Aprobar");

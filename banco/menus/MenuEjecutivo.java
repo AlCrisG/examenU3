@@ -60,14 +60,14 @@ public class MenuEjecutivo {
                     int opcionSolicitud = leerNum.nextInt();
 
                     switch(opcionSolicitud){
-                        case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada);
-                        case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso);
-                        case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada);
+                        case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada, sucursal);
+                        case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso, sucursal);
+                        case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada, sucursal);
                         default -> System.out.println("Opción no válida.");
                     }
                     break;
                 case 6:
-                    Tarjeta.cambiarEstatusSolicitud();
+                    Tarjeta.cambiarEstatusSolicitud(sucursal);
                     break;
                 case 7:
                     System.out.println("Cerrando sesión...");

@@ -33,8 +33,8 @@ public class MenuGerenteSucursal {
             System.out.println("|   2    | Modificar     |");
             System.out.println("|   3    | Consultar     |");
             System.out.println("|   4    | Eliminar      |");
-            System.out.println("|   6    | Tarjetas      |");
-            System.out.println("|   5    | Cerrar sesión |");
+            System.out.println("|   5    | Tarjetas      |");
+            System.out.println("|   6    | Cerrar sesión |");
             System.out.println("+------------------------+");
             System.out.print("Elige una opción: ");
             opcion = leerNum.nextInt();
@@ -366,15 +366,15 @@ public class MenuGerenteSucursal {
                             int opcionSolicitud = leerNum.nextInt();
 
                             switch(opcionSolicitud){
-                                case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada);
-                                case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso);
-                                case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada);
+                                case 1 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Aprobada, sucursal);
+                                case 2 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.EnProceso, sucursal);
+                                case 3 -> Tarjeta.verSolicitudesTodos(EstatusSolicitud.Rechazada, sucursal);
                                 default -> System.out.println("Opción no válida.");
                             }
                             break;
 
                         case 2:
-                            Tarjeta.cambiarEstatusSolicitud();
+                            Tarjeta.cambiarEstatusSolicitud(sucursal);
                             break;
 
                         case 3:
