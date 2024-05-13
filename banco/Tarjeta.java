@@ -220,7 +220,9 @@ public class Tarjeta {
         System.out.printf("CVV: %s%n", tarjeta.getCvv());
         System.out.printf("Fecha de vencimiento: %s%n", tarjeta.getFechaVencimiento().format(vencimiento));        
         System.out.printf("Saldo: %s%n", tarjeta.getSaldo());
-        System.out.printf("Fecha del último movimiento: %s%n", tarjeta.getFechaUltimoMovimiento().format(movimiento));
+        if(tarjeta.fechaUltimoMovimiento != null){
+            System.out.printf("Fecha del último movimiento: %s%n", tarjeta.getFechaUltimoMovimiento().format(movimiento));
+        }
         System.out.printf("Fecha de creación: %s%n", tarjeta.getFechaCreacion().format(movimiento));
     }
 
@@ -234,7 +236,9 @@ public class Tarjeta {
         System.out.printf("CVV: %s%n", tarjeta.getCvv());
         System.out.printf("Fecha de vencimiento: %s%n", tarjeta.getFechaVencimiento().format(vencimiento));        
         System.out.printf("Crédito máximo: %d%n", tarjeta.getCreditoMaximo());
-        System.out.printf("Fecha del último movimiento: %s%n", tarjeta.getFechaUltimoMovimiento().format(movimiento));
+        if(tarjeta.fechaUltimoMovimiento != null){
+            System.out.printf("Fecha del último movimiento: %s%n", tarjeta.getFechaUltimoMovimiento().format(movimiento));
+        }
         System.out.printf("Fecha de creación: %s%n", tarjeta.getFechaCreacion().format(movimiento));
     }
 
@@ -401,6 +405,7 @@ public class Tarjeta {
     }
 
     private static void menuTarjetaDebito(Tarjeta tarjeta){
+        int opcion;
         do{
             System.out.println("|  MENU TARJETA DÉBITO |");    
             System.out.println("+------------------------------------------+");
@@ -413,7 +418,7 @@ public class Tarjeta {
             System.out.println("|   5    | Volver                          |");
             System.out.println("+------------------------------------------+");
             System.out.print("Elige una opción: ");
-            int opcion = leerNumeros.nextInt();
+            opcion = leerNumeros.nextInt();
 
             switch(opcion){
                 case 1:
@@ -440,10 +445,11 @@ public class Tarjeta {
                     System.out.println("Opción no válida.");
                     break;
             }
-        }while(true);
+        }while(opcion != 5);
     }
 
     private static void menuTarjetaCredito(Tarjeta tarjeta){
+        int opcion;
         do{
             System.out.println("|  MENU TARJETA CRÉDITO " + tarjeta.getTipoTarjetaCredito() +" |");    
             System.out.println("+------------------------------------------+");
@@ -455,7 +461,7 @@ public class Tarjeta {
             System.out.println("|   4    | Volver                          |");
             System.out.println("+------------------------------------------+");
             System.out.print("Elige una opción: ");
-            int opcion = leerNumeros.nextInt();
+            opcion = leerNumeros.nextInt();
 
             switch (opcion) {
                 case 1:
@@ -477,7 +483,7 @@ public class Tarjeta {
                 default:
                     break;
             }
-        }while(true);
+        }while(opcion != 4);
     }
 
     private static void realizarPagoCredito(Tarjeta tarjeta) {
@@ -570,7 +576,7 @@ public class Tarjeta {
         Scanner leer = new Scanner(System.in);
         double pago;
 
-        System.out.print("Ingrese la cantidad de su pago");
+        System.out.print("Ingrese la cantidad de su pago: ");
         pago = leer.nextDouble();
 
         if(tarjeta.saldo >= pago) {
@@ -696,7 +702,7 @@ public class Tarjeta {
     }
 
     public LocalDate getFechaCreacion() {
-        return fechaUltimoMovimiento;
+        return fechaCreacion;
     }
 
     public void setTipoTarjetaCredito(TipoTarjetaCredito tipoCredito) {
