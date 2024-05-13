@@ -13,6 +13,10 @@ import usuario.utils.Rol;
 
 public class Cliente extends Persona{
     private LocalDate fechaRegistro;
+    private boolean tieneSolicitud = false;
+    private boolean tieneSimplicity = false;
+    private boolean tienePlatino = false;
+    private boolean tieneOro = false;
     static Scanner leerCadenas = new Scanner(System.in);
     
     public Cliente(String nombre, String primerApellido, String segundoApellido, String fecha, String genero, String ciudad, String estado, String direccion, String nombreUsuario, String contra, LocalDate fechaRegistro, Sucursal sucursalRegistro){
@@ -175,4 +179,35 @@ public class Cliente extends Persona{
         
     }
 
+    public void setTieneSolicitud(boolean tieneSolicitud){
+        this.tieneSolicitud = tieneSolicitud;
+    }
+
+    public boolean tieneSolicitud(){
+        return tieneSolicitud;
+    }
+
+    public void setTieneSimplicity(boolean tieneSimplicity){
+        this.tieneSimplicity = tieneSimplicity;
+    }
+
+    public boolean tieneSimplicity(){
+        return tieneSimplicity;
+    }
+
+    public void setTienePlatino(boolean tienePlatino){
+        this.tienePlatino = tienePlatino;
+    }
+
+    public boolean tienePlatino(){
+        return tienePlatino;
+    }
+
+    public void setTieneOro(boolean tieneOro){
+        this.tieneOro = tieneOro;
+    }
+
+    public boolean tieneOro(){
+        return tieneOro;
+    }
 }

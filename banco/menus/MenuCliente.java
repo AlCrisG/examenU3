@@ -36,7 +36,11 @@ public class MenuCliente {
             Cliente cliente = (Cliente) UsuarioEnSesion.getInstancia().getUsuarioActual();
             switch(opcion){
                 case 1:
-                    Tarjeta.solicitarTarjeta(cliente);
+                    if(!cliente.tieneSolicitud()){
+                        Tarjeta.solicitarTarjeta(cliente);
+                    } else{
+                        System.out.println("Ya tiene una solicitud para tarjeta.");
+                    }
                     break;
 
                 case 2:
