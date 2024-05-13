@@ -1,6 +1,7 @@
 package banco;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class Tarjeta {
     private double saldo, creditoMaximo, creditoDisponible;
     private Cliente titular;
     private EstatusSolicitud estatus;
-    private LocalDate fechaCreacion, fechaVencimiento, fechaUltimoMovimiento, fechaRespuesta;
+    private LocalDateTime fechaCreacion, fechaVencimiento, fechaUltimoMovimiento, fechaRespuesta;
     private static int idSolicitudGlobal = 1;
     private int idSolicitud;
 
@@ -31,9 +32,9 @@ public class Tarjeta {
         this.numeroTarjeta = generarNumeroTarjeta(sucursalRegistro);
         this.clabe = generarClabe(sucursalRegistro, this.numeroTarjeta);        
         this.cvv = generarCvv();
-        this.fechaVencimiento = LocalDate.now().plusYears(5);
+        this.fechaVencimiento = LocalDateTime.now().plusYears(5);
         this.saldo = 0;        
-        this.fechaCreacion = LocalDate.now();
+        this.fechaCreacion = LocalDateTime.now();
     }
 
     public Tarjeta (Cliente titular, Sucursal sucursalRegistro, TipoTarjeta tipo, TipoTarjetaCredito tipoCredito, double creditoMaximo) {
@@ -44,8 +45,8 @@ public class Tarjeta {
         this.numeroTarjeta = generarNumeroTarjeta(sucursalRegistro);
         this.clabe = generarClabe(sucursalRegistro, this.numeroTarjeta);        
         this.cvv = generarCvv();
-        this.fechaVencimiento = LocalDate.now().plusYears(5);
-        this.fechaCreacion = LocalDate.now();
+        this.fechaVencimiento = LocalDateTime.now().plusYears(5);
+        this.fechaCreacion = LocalDateTime.now();
         this.estatus = EstatusSolicitud.EnProceso;
         this.creditoMaximo = creditoMaximo;
         this.creditoDisponible = creditoMaximo;
@@ -159,7 +160,7 @@ public class Tarjeta {
                             break;
 
                         case 2:
-                            if(!cliente.tieneSimplicity()){
+                            if(!cliente.tienePlatino()){
                                 solicitarTarjetaCredito(cliente, TipoTarjetaCredito.Platino, 150000);
                                 cliente.setTieneSolicitud(true);
                             } else{
@@ -184,7 +185,7 @@ public class Tarjeta {
                             break;
 
                         case 2:
-                            if(!cliente.tieneSimplicity()){
+                            if(!cliente.tienePlatino()){
                                 solicitarTarjetaCredito(cliente, TipoTarjetaCredito.Platino, 150000);
                                 cliente.setTieneSolicitud(true);
                             } else{
@@ -193,7 +194,7 @@ public class Tarjeta {
                             break;
 
                         case 3:
-                            if(!cliente.tieneSimplicity()){
+                            if(!cliente.tieneOro()){
                                 solicitarTarjetaCredito(cliente, TipoTarjetaCredito.Oro, 400000);
                                 cliente.setTieneSolicitud(true);
                             } else{
@@ -247,7 +248,7 @@ public class Tarjeta {
 
     private static void mostrarInformacionTarjetaDebito(Tarjeta tarjeta) {
         DateTimeFormatter vencimiento = DateTimeFormatter.ofPattern("MM/yyyy");
-        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         System.out.println("======================================================");
         System.out.printf("Número de tarjeta: %s%n", tarjeta.getNumeroTarjeta());
         System.out.printf("Clabe interbancaria: %s%n", tarjeta.getClabe());
@@ -262,7 +263,7 @@ public class Tarjeta {
 
     private static void mostrarInformacionTarjetaCredito(Tarjeta tarjeta) {
         DateTimeFormatter vencimiento = DateTimeFormatter.ofPattern("MM/yyyy");
-        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter movimiento = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         System.out.println("======================================================");
         System.out.printf("Tipo de crédito: %s%n", tarjeta.getTipoTarjetaCredito());
         System.out.printf("Número de tarjeta: %s%n", tarjeta.getNumeroTarjeta());
@@ -274,7 +275,7 @@ public class Tarjeta {
         if(tarjeta.fechaUltimoMovimiento != null){
             System.out.printf("Fecha del último movimiento: %s%n", tarjeta.getFechaUltimoMovimiento().format(movimiento));
         }
-        System.out.printf("Fecha de creación: %s%n", tarjeta.getFechaCreacion().format(movimiento));
+        System.out.printf("Fecha de aprobación: %s%n", tarjeta.fechaRespuesta.format(movimiento));
     }
 
     public static void seleccionarTarjeta(Cliente cliente){
@@ -530,7 +531,7 @@ public class Tarjeta {
 
         if(pago <= tarjeta.creditoDisponible) {
             tarjeta.creditoDisponible = tarjeta.creditoDisponible - pago;
-            tarjeta.fechaUltimoMovimiento = LocalDate.now();
+            tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
         } else {
             System.out.println("El monto de tu compra es mayor a tu crédito restante.\n Realiza el pago de la tarjeta para aumentar tu crédito.");
         }    
@@ -552,7 +553,7 @@ public class Tarjeta {
                 pago= leer.nextDouble();
 
                 tarjeta.creditoDisponible = tarjeta.creditoDisponible + pago;
-                tarjeta.fechaUltimoMovimiento = LocalDate.now();
+                tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
                 System.out.println("Pago de tarjeta realizado con éxito");                
                 break;
             case 2:
@@ -563,8 +564,14 @@ public class Tarjeta {
                     if(tarjeta.getTitular() == tarjetaDebito.getTitular() && tarjetaDebito.tipo == TipoTarjeta.Debito) {
                         if(pago <= tarjetaDebito.saldo){
                             tarjeta.creditoDisponible = tarjeta.creditoDisponible + pago;
+                            if(tarjeta.creditoDisponible > tarjeta.creditoMaximo){
+                                double aux = tarjeta.creditoDisponible - tarjeta.creditoMaximo;
+                                tarjeta.creditoDisponible -= aux;
+                                pago -= aux;
+                                System.out.printf("No puede pagar más del crédito máximo. Se le devuelven $%s.%n", aux);
+                            }
                             tarjetaDebito.setSaldo(tarjetaDebito.getSaldo() - pago);
-                            tarjeta.fechaUltimoMovimiento = LocalDate.now();
+                            tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
                             System.out.println("Pago de tarjeta realizado con éxito");
                         }                
                         else {
@@ -588,7 +595,7 @@ public class Tarjeta {
         deposito = leer.nextDouble();
 
         tarjeta.saldo = tarjeta.saldo + deposito;
-        tarjeta.fechaUltimoMovimiento = LocalDate.now();
+        tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
         System.out.println("Depósito hecho con éxito.");
     }
 
@@ -602,7 +609,7 @@ public class Tarjeta {
 
         if(tarjeta.saldo >= retiro) {
             tarjeta.saldo = tarjeta.saldo - retiro;
-            tarjeta.fechaUltimoMovimiento = LocalDate.now();
+            tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
             System.out.println("Se han retirado $" + retiro + " de su cuenta.");
         } else {
             System.out.println("Error al retirar. Fondos insuficientes.");
@@ -619,7 +626,7 @@ public class Tarjeta {
 
         if(tarjeta.saldo >= pago) {
             tarjeta.saldo = tarjeta.saldo - pago;
-            tarjeta.fechaUltimoMovimiento = LocalDate.now();
+            tarjeta.fechaUltimoMovimiento = LocalDateTime.now();
             System.out.println("Pago con éxito. \n Se ha hecho un cargo de $" + pago + " a su cuenta.");
         } else {
             System.out.println("Error de pago. Fondos insuficientes.");
@@ -627,7 +634,7 @@ public class Tarjeta {
     } 
     
     public static void verSolicitudesCliente(Cliente cliente){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         int cont = 0;
         for(Tarjeta tarjeta : Banco.tarjetas){
             if(tarjeta.getTitular() == cliente && tarjeta.tipo == TipoTarjeta.Credito){
@@ -635,6 +642,11 @@ public class Tarjeta {
                 System.out.println("Tipo de crédito: " + tarjeta.getTipoTarjetaCredito());
                 System.out.println("Estatus: " + tarjeta.estatus);
                 System.out.println("Fecha de solicitud: " + tarjeta.fechaCreacion.format(formatter));
+                if(tarjeta.estatus == EstatusSolicitud.Aprobada){
+                    System.out.println("Fecha de aprobación: " + tarjeta.fechaRespuesta.format(formatter));
+                } else if(tarjeta.estatus == EstatusSolicitud.Rechazada){
+                    System.out.println("Fecha de rechazo: " + tarjeta.fechaRespuesta.format(formatter));
+                }
                 System.out.println("=====================================");
                 cont++;
             }
@@ -644,8 +656,8 @@ public class Tarjeta {
         }
     }
 
-    public static void verSolicitudesTodos(EstatusSolicitud estatusSolicitud){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static boolean verSolicitudesTodos(EstatusSolicitud estatusSolicitud){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         int cont = 0;
         for(Tarjeta tarjeta : Banco.tarjetas){
             if(tarjeta.estatus == estatusSolicitud && tarjeta.tipo == TipoTarjeta.Credito){
@@ -655,57 +667,67 @@ public class Tarjeta {
                 System.out.println("Tipo de crédito: " + tarjeta.getTipoTarjetaCredito());
                 System.out.println("Estatus: " + tarjeta.estatus);
                 System.out.println("Fecha de solicitud: " + tarjeta.fechaCreacion.format(formatter));
+                if(tarjeta.estatus == EstatusSolicitud.Aprobada){
+                    System.out.println("Fecha de aprobación: " + tarjeta.fechaRespuesta.format(formatter));
+                } else if(tarjeta.estatus == EstatusSolicitud.Rechazada){
+                    System.out.println("Fecha de rechazo: " + tarjeta.fechaRespuesta.format(formatter));
+                }
                 double saldoDebito = 0;
                 for(Tarjeta tarjeta2 : Banco.tarjetas){
                     if(tarjeta.getTitular() == tarjeta2.getTitular() && tarjeta2.getTipoTarjeta() == TipoTarjeta.Debito){
                         saldoDebito = tarjeta2.getSaldo();
                     }
                 }
-                System.out.println("Saldo (Débito): " + saldoDebito);
+                System.out.println("Saldo en Tarjeta de Débito: " + saldoDebito);
                 System.out.println("=====================================");
                 cont++;
             }
         }
         if(cont == 0){
             System.out.println("No se han recibido solicitudes con este estatus.");
+            return false;
+        } else{
+            return true;
         }
     }
 
     public static void cambiarEstatusSolicitud(){
-        verSolicitudesTodos(EstatusSolicitud.EnProceso);
-        System.out.println("SELECCIONE UN NÚMERO DE SOLICITUD: ");
-        int numSolicitud = leerNumeros.nextInt();
-        boolean encontrado = false;
+        if(verSolicitudesTodos(EstatusSolicitud.EnProceso)){
+            System.out.println("SELECCIONE UN NÚMERO DE SOLICITUD: ");
+            int numSolicitud = leerNumeros.nextInt();
+            boolean encontrado = false;
 
-        for(Tarjeta tarjeta : Banco.tarjetas){
-            if(tarjeta.estatus == EstatusSolicitud.EnProceso && tarjeta.idSolicitud == numSolicitud){
-                encontrado = true;
-                System.out.println("Seleccione una opción");
-                System.out.println("1. Aprobar");
-                System.out.println("2. Rechazar");
-                System.out.println("SU ELECCIÓN: ");
-                int opcion = leerNumeros.nextInt();
+            for(Tarjeta tarjeta : Banco.tarjetas){
+                if(tarjeta.estatus == EstatusSolicitud.EnProceso && tarjeta.idSolicitud == numSolicitud){
+                    encontrado = true;
+                    System.out.println("Seleccione una opción");
+                    System.out.println("1. Aprobar");
+                    System.out.println("2. Rechazar");
+                    System.out.println("SU ELECCIÓN: ");
+                    int opcion = leerNumeros.nextInt();
 
-                switch (opcion) {
-                    case 1 -> tarjeta.setEstatus(EstatusSolicitud.Aprobada);
-                    case 2 -> tarjeta.setEstatus(EstatusSolicitud.Rechazada);
-                    default -> System.out.println("Opción no válida.");
-                }
-
-                if(tarjeta.estatus == EstatusSolicitud.Aprobada || tarjeta.estatus == EstatusSolicitud.Rechazada){
-                    TipoTarjetaCredito tipoCredito = tarjeta.getTipoTarjetaCredito();
-                    switch(tipoCredito){
-                        case Simplicity -> tarjeta.getTitular().setTieneSimplicity(true);
-                        case Platino -> tarjeta.getTitular().setTienePlatino(true);
-                        case Oro -> tarjeta.getTitular().setTieneOro(true);
+                    switch (opcion) {
+                        case 1 -> tarjeta.setEstatus(EstatusSolicitud.Aprobada);
+                        case 2 -> tarjeta.setEstatus(EstatusSolicitud.Rechazada);
+                        default -> System.out.println("Opción no válida.");
                     }
-                    tarjeta.getTitular().setTieneSolicitud(false);
+
+                    if(tarjeta.estatus == EstatusSolicitud.Aprobada || tarjeta.estatus == EstatusSolicitud.Rechazada){
+                        TipoTarjetaCredito tipoCredito = tarjeta.getTipoTarjetaCredito();
+                        switch(tipoCredito){
+                            case Simplicity -> tarjeta.getTitular().setTieneSimplicity(true);
+                            case Platino -> tarjeta.getTitular().setTienePlatino(true);
+                            case Oro -> tarjeta.getTitular().setTieneOro(true);
+                        }
+                        tarjeta.getTitular().setTieneSolicitud(false);
+                        tarjeta.fechaRespuesta = LocalDateTime.now();
+                    }
                 }
             }
-        }
 
-        if(!encontrado){
-            System.out.println("No hay ninguna solicitud con ese número.");
+            if(!encontrado){
+                System.out.println("No hay ninguna solicitud con ese número.");
+            }
         }
     }
 
@@ -741,15 +763,15 @@ public class Tarjeta {
         return creditoMaximo;
     }
 
-    public LocalDate getFechaVencimiento() {
+    public LocalDateTime getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public LocalDate getFechaUltimoMovimiento() {
+    public LocalDateTime getFechaUltimoMovimiento() {
         return fechaUltimoMovimiento;
     }
 
-    public LocalDate getFechaCreacion() {
+    public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
     }
 
