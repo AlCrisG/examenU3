@@ -48,7 +48,8 @@ public class Cliente extends Persona{
 
     public static void generarTarjetaDebito(Sucursal sucursal) {
         Cliente cliente = (Cliente) UsuarioEnSesion.getInstancia().getUsuarioActual();
-        tarjetas.add(new Tarjeta(cliente, sucursal, TipoTarjeta.Debito));        
+        tarjetas.add(new Tarjeta(cliente, sucursal, TipoTarjeta.Debito));
+        Banco.solicitudes.get(EstatusSolicitud.EnProceso).
     }
 
     public static void generarTarjetaCredito(Cliente cliente, Sucursal sucursal, TipoTarjetaCredito tipoCredito, double creditoMaximo) {

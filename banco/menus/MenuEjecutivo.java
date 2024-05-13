@@ -2,8 +2,10 @@ package banco.menus;
 
 import java.util.Scanner;
 
+import banco.Banco;
 import banco.utils.Sucursal;
 import usuario.Cliente;
+import usuario.utils.Rol;
 
 
 public class MenuEjecutivo {
@@ -59,5 +61,11 @@ public class MenuEjecutivo {
                     break;
             }
         }while(true);
+    }
+
+    private static void listarSolicitudes(){
+        for(Cliente cliente : Banco.usuarios.get(Rol.Cliente)){
+            ArrayList
+        }
     }
 }
